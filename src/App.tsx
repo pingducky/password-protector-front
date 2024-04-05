@@ -1,5 +1,6 @@
 import './App.css'
-import Login from './pages/Login'
+import '@mantine/core/styles.css';
+import Demo from './pages/Login'
 
 function App() {
   return (
