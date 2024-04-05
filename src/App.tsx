@@ -1,13 +1,48 @@
 import './App.css'
 import '@mantine/core/styles.css';
-import Demo from './pages/Login'
+import Login from './pages/Login';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Register from './pages/Register';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+import Dashboard from './pages/Dashboard';
 
-function App() {
+const router = createBrowserRouter(
+  [
+    {
+      element: <Root />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: '/',
+          element: <Dashboard />
+        },
+        {
+          path: '/register',
+          element: <Register />
+        },
+        {
+          path: '/login',
+          element: <Login />
+        },
+        {
+          path: '/dashboard',
+          element: <Dashboard />
+        },
+      ]
+    }
+  ]
+);
+
+function Root() {
   return (
-    <>
-      <Login nom='TOTO' />
-    </>
+    <div>
+      <Outlet />
+    </div>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <RouterProvider router={router} />
+  );
+}

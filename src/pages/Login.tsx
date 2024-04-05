@@ -1,8 +1,8 @@
 import { isNotEmpty, useForm } from '@mantine/form';
-import { TextInput, Button, Box, PasswordInput, Title, Group } from '@mantine/core';
+import { TextInput, Box, PasswordInput, Title, Group } from '@mantine/core';
+import CustomizeButton from '../components/shared/CustomizeButton';
 
 export default function Login() {
-export default function Demo() {
 
     const form = useForm({
         initialValues: { email: '', firstname: '', lastname: '', password: '', confirmPassword: '' },
@@ -27,12 +27,10 @@ export default function Demo() {
                 <PasswordInput withAsterisk mt="sm" label="Mot de passe" placeholder="Mot de passe"  {...form.getInputProps('password')} />
                 <PasswordInput withAsterisk mt="sm" label="Confirmation" placeholder="Confirmation" {...form.getInputProps('confirmPassword')} />
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit" mt="sm" justify="flex-end">
-                        Inscription
-                    </Button>
+                    <CustomizeButton text='Incription'>
+                    </CustomizeButton>
                 </Group>
             </form>
         </Box>
     );
-    
 }
