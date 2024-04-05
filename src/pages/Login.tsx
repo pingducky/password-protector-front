@@ -1,21 +1,27 @@
 import { isNotEmpty, useForm } from '@mantine/form';
-import { TextInput, Box, PasswordInput, Title, Group } from '@mantine/core';
-import CustomizeButton from '../components/shared/CustomizeButton';
+import { TextInput, Button, Box, PasswordInput, Title, Group } from '@mantine/core';
 
 export default function Login() {
 
-    const form = useForm({
-        initialValues: { email: '', firstname: '', lastname: '', password: '', confirmPassword: '' },
+    const isEmail = (email: string) =>
+        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
-        validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email invalide'),
-            password: isNotEmpty(),
-            confirmPassword: (value, values) =>
-                value !== values.password ? 'Les mots de passe de correspondent pas' : null,
-            firstname: isNotEmpty(),
-            lastname: isNotEmpty(),
-        },
-    });
+    const [isInputValid, errorMessage] = useState();
+
+    const validateInput = (email: string) => {
+        const regexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (regexp.exec(email) !== null) {
+            return {
+                isInputValid: true,
+                errorMessage: ''
+            };
+        } else {
+            return {
+                isInputValid: false,
+                errorMessage: 'Email invalide.'
+            };
+        }
+    }
 
     return (
         <Box maw={340} mx="auto">
