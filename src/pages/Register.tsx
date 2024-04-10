@@ -1,5 +1,5 @@
-import { Formik } from "formik";
-import { Anchor, Box, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
+import {Formik} from "formik";
+import {Box, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import { useNavigate } from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
@@ -15,7 +15,7 @@ export default function Register() {
         lastname: string;
         username: string;
         password: string;
-        confirm: string;
+        confirm?: string;
     }
 
     const validate = (values: IRegisterFormValues) => {
@@ -25,8 +25,10 @@ export default function Register() {
         else if (values.email.length !== 0 && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Adresse email invalide';
         }
+        //TODO : Vérification de l'existance de l'email
 
         if (!values.username) errors.username = 'Identifiant requis';
+        //TODO : Vérification de l'existance de l'username
 
         if (values.password !== values.confirm && values.confirm) errors.confirm = 'Les mots de passe ne correspondent pas';
         else if (!values.password) errors.password = 'Mot de passe requis';
@@ -51,11 +53,11 @@ export default function Register() {
                         email: ''
                     }}
                     validate={validate}
-                    onSubmit={(values, { setSubmitting }) => {
+                    onSubmit={(values: IRegisterFormValues, {setSubmitting}) => {
 
-                        const { confirm, ...valuesToSend } = values;
+                        delete values.confirm;
 
-                        console.log(JSON.stringify(valuesToSend, null, 2));
+                        console.log(JSON.stringify(values, null, 2));
                         setSubmitting(false);
 
                         navigate('/');
@@ -143,9 +145,7 @@ export default function Register() {
                                 </CustomizeButton>
                             </Box>
                             <Box >
-                                <Anchor href="/login" underline="always">
-                                    Se connecter
-                                </Anchor>
+                                <CustomizeButton variant="transparent" onClick={() => navigate('/login')} text={"Se connecter"}></CustomizeButton>
                             </Box>
                         </form>
                     )}
