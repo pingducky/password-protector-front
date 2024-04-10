@@ -1,10 +1,10 @@
 import './App.css'
 import '@mantine/core/styles.css';
-import Login from './pages/Login';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Register from './pages/Register';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 const router = createBrowserRouter(
   [
