@@ -1,7 +1,9 @@
-import {Formik} from "formik";
-import {Anchor, Box, Group, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
+import { Formik } from "formik";
+import { Anchor, Box, Group, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import PasswordStrengthBar from 'react-password-strength-bar';
+
 
 export default function Register() {
 
@@ -49,9 +51,9 @@ export default function Register() {
                         email: ''
                     }}
                     validate={validate}
-                    onSubmit={(values, {setSubmitting}) => {
+                    onSubmit={(values, { setSubmitting }) => {
 
-                        const { confirm, ...valuesToSend} = values;
+                        const { confirm, ...valuesToSend } = values;
 
                         console.log(JSON.stringify(valuesToSend, null, 2));
                         setSubmitting(false);
@@ -60,13 +62,13 @@ export default function Register() {
                     }}
                 >
                     {({
-                          values,
-                          errors,
-                          touched,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                      }) => (
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                    }) => (
                         <form onSubmit={handleSubmit}>
                             <TextInput
                                 type="email"
@@ -118,8 +120,12 @@ export default function Register() {
                                 value={values.password}
                                 error={!!errors.password && touched.password && errors.password}
                                 mt={15}
+                                mb={15}
                                 required
                             />
+
+                            <PasswordStrengthBar password={values.password} />
+
                             <PasswordInput
                                 type="password"
                                 name="confirm"
