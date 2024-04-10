@@ -1,18 +1,22 @@
-import { Button } from "@mantine/core";
+import { Button, ButtonVariant } from "@mantine/core";
 
 type Button = {
     text: string,
-    onClick?: () => void,
     type: 'button' | 'submit' | 'reset',
+    variant?: ButtonVariant
+    width?: string,
+    onClick?: () => void,
 }
 
-export default function CustomizeButton({ text, onClick, type }: Button) {
+export default function CustomizeButton({ text, type, variant, width, onClick }: Button) {
     return (
         <Button
-            onClick={onClick}
             color="violet"
             m={10}
             type={type}
+            variant={variant}
+            w={width}
+            onClick={onClick}
         >
             {text}
         </Button>

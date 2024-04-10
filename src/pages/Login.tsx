@@ -1,4 +1,4 @@
-import { Button, Container, Flex, PasswordInput, TextInput } from "@mantine/core";
+import { Container, Flex, Paper, PasswordInput, TextInput } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +14,9 @@ export default function Login() {
     const [errorEmail, setErrorEmail] = useState<string | boolean>(false);
     const [errorPassword, setErrorPassword] = useState<string | boolean>(false);
 
-    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const passwordMinLenght = 8;
-
-    const handleRedirectToForgottenPasswordPage = () => {
-        navigate('/resetPassword');
-    }
 
     const handleCheckEmail = () => {
         if (!emailRegex.test(email)) {
@@ -54,36 +50,72 @@ export default function Login() {
     }
 
     return (
-        <>
-            <Container color="red">
-                <Flex
-                    direction={'column'}
-                    justify="center"
-                    align="center"
-                >
-                    {!isEmailValidated && (<TextInput label="Email" placeholder="email" onChange={(event) => setEmail(event.currentTarget.value.toLocaleLowerCase())} w={'300px'} error={errorEmail} />)}
-                    {isEmailValidated && (
-                        <Container>
-                            <TextInput disabled={true} value={email} label="Email" placeholder="email" w={'300px'} mb={'15px'} />
-                            <PasswordInput
-                                label="Mot de passe"
-                                placeholder="mot de passe"
-                                w={'300px'}
-                                error={errorPassword}
-                                onChange={(event) => setPassword(event.currentTarget.value)}
-                            />
-                        </Container>
-                    )}
-                    <CustomizeButton onClick={handleConnect} text={isEmailValidated ? 'Se connecter' : 'Suivant'} />
-                </Flex>
-                <br />
+        <Paper shadow="xl" radius="xl" withBorder p="xl">
+            <Flex
+                direction={'column'}
+                justify="center"
+                align="center"
+            >
+                {!isEmailValidated && (
+                    <TextInput
+                        label="Email"
+                        placeholder="email"
+                        onChange={(event) => setEmail(event.currentTarget.value.toLocaleLowerCase())}
+                        w={'300px'}
+                        error={errorEmail}
+                    />)}
+
                 {isEmailValidated && (
-                    <Container mt={20}>
-                        <Button variant="transparent" onClick={handleRedirectToForgottenPasswordPage} mr={15}>Mot de passe oublié ?</Button>
-                        <Button variant="transparent" onClick={() => setIsEmailValidated(false)}>Se connecter avec un compte différent ?</Button>
+                    <Container>
+                        <TextInput disabled={true} value={email} label="Email" placeholder="email" w={'300px'} mb={'15px'} />
+                        <PasswordInput
+                            label="Mot de passe"
+                            placeholder="mot de passe"
+                            w={'300px'}
+                            error={errorPassword}
+                            onChange={(event) => setPassword(event.currentTarget.value)}
+                            mb={15}
+                        />
                     </Container>
                 )}
-            </Container>
-        </>
+            </Flex>
+
+            <Flex direction={"column"} align={"center"}>
+                <CustomizeButton
+                    variant="filled"
+                    onClick={handleConnect}
+                    text={!isEmailValidated ? "Suivant" : "Se connecter"}
+                    type="button"
+                    width="250"
+                />
+
+                {!isEmailValidated && (
+                    <CustomizeButton
+                        variant="transparent"
+                        onClick={() => navigate('/register')}
+                        text="Se créer un compte"
+                        type="button"
+                    />
+                )}
+
+            </Flex>
+
+            {isEmailValidated && (
+                <Container>
+                    <CustomizeButton
+                        variant="transparent"
+                        onClick={() => setIsEmailValidated(false)}
+                        text="Se connecter avec un compte différent"
+                        type="button"
+                    />
+                    <CustomizeButton
+                        variant="transparent"
+                        onClick={() => navigate('/resetPassword')}
+                        text="Mot de passe oublié ?"
+                        type="button"
+                    />
+                </Container>
+            )}
+        </Paper>
     )
 }

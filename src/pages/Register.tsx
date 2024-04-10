@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { Anchor, Box, Group, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
+import { Anchor, Box, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import { useNavigate } from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
