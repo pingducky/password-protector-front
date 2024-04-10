@@ -11,6 +11,7 @@ export default function CustomizeButton({ text, onClick, type }: Button) {
         <Button
             onClick={onClick}
             color="violet"
+            m={10}
             type={type}
         >
             {text}
