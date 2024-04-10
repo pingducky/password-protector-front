@@ -10,6 +10,7 @@ export default function CustomizeButton({ text, onClick }: Button) {
         <Button
             onClick={onClick}
             color="violet"
+            m={10}
         >
             {text}
         </Button>
