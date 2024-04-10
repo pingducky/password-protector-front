@@ -19,27 +19,18 @@ export default function Register() {
     const validate = (values: IRegisterFormValues) => {
         const errors: Partial<IRegisterFormValues> = {};
 
-        if (!values.email) {
-            errors.email = 'Adresse email requise';
-        } else if (values.email.length !== 0 && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        if (!values.email) errors.email = 'Adresse email requise';
+        else if (values.email.length !== 0 && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Adresse email invalide';
         }
 
-        if (!values.username) {
-            errors.username = 'Identifiant requis';
-        }
+        if (!values.username) errors.username = 'Identifiant requis';
 
-        if (values.password !== values.confirm && values.confirm) {
-            errors.confirm = 'Les mots de passe ne correspondent pas';
-        } else if (!values.password) {
-            errors.password = 'Mot de passe requis';
-        } else if (values.password.length < 8){
-            errors.password = 'Le mot de passe doit contenir au minimum 8 caractères'
-        }
+        if (values.password !== values.confirm && values.confirm) errors.confirm = 'Les mots de passe ne correspondent pas';
+        else if (!values.password) errors.password = 'Mot de passe requis';
+        else if (values.password.length < 8) errors.password = 'Le mot de passe doit contenir au minimum 8 caractères'
 
-        if (!values.confirm) {
-            errors.confirm = 'Confirmation requise';
-        }
+        if (!values.confirm) errors.confirm = 'Confirmation requise';
 
         return errors;
     }
