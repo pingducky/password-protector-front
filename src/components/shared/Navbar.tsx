@@ -16,12 +16,11 @@ export default function Navbar() {
         navigate("/register");
     }
 
-    
-
     return (
         <AppShell
             header={{ height: 60 }}
             padding="md"
+            mt={50}
         >
             <AppShell.Header>
                 <Group justify="space-between" h="100%" px="md">
@@ -34,8 +33,8 @@ export default function Navbar() {
                         <NavLink href="/dashboard" label={"DashBoard"} />
                     </Group>
                     {connected && <Group grow pb="xl" px="md">
-                        <CustomizeButton onClick={handleLoginClick} variant={"transparent"} text={"Connexion"}/>
-                        <CustomizeButton onClick={handleRegisterClick}  text={"Inscription"}/>
+                        <CustomizeButton type={"button"} onClick={handleLoginClick} variant={"transparent"} text={"Connexion"}/>
+                        <CustomizeButton type={"button"} onClick={handleRegisterClick}  text={"Inscription"}/>
                     </Group> }
                 </Group>
             </AppShell.Header>
