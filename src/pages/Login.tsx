@@ -12,9 +12,8 @@ export default function Login() {
     }
 
     const handleConnect = () => {
-        
+        setValidEmail(true);
     }
-
 
     const [validEmail, setValidEmail] = useState(false);
 
