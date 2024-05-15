@@ -3,6 +3,7 @@ import {Box, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import { useNavigate } from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
+import Navbar from "../components/shared/Navbar.tsx";
 
 
 export default function Register() {
@@ -41,8 +42,9 @@ export default function Register() {
 
     return (
         <div>
+            <Navbar/>
             <Paper shadow="xl" radius="xl" withBorder p="xl">
-                <Title order={2} lineClamp={2} mb={50}>Espace d'inscription</Title>
+                <Title order={2} lineClamp={2} mb={25}>Espace d'inscription</Title>
                 <Formik
                     initialValues={{
                         username: '',
@@ -145,7 +147,7 @@ export default function Register() {
                                 </CustomizeButton>
                             </Box>
                             <Box >
-                                <CustomizeButton variant="transparent" onClick={() => navigate('/login')} text={"Se connecter"}></CustomizeButton>
+                                <CustomizeButton type={"button"} variant="transparent" onClick={() => navigate('/login')} text={"Se connecter"}></CustomizeButton>
                             </Box>
                         </form>
                     )}
