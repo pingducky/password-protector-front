@@ -8,6 +8,7 @@ type Button = {
     onClick?: () => void,
 }
 
+
 export default function CustomizeButton({ text, type, variant, width, onClick }: Button) {
     return (
         <Button
