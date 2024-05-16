@@ -2,7 +2,7 @@ import { Container, Flex, Paper, PasswordInput, TextInput } from "@mantine/core"
 import CustomizeButton from "../components/shared/CustomizeButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/shared/Navbar.tsx";
+import Navbar from "../components/shared/Navbar";
 
 export default function Login() {
 
@@ -51,9 +51,8 @@ export default function Login() {
     }
 
     return (
-        <div>
-        <Navbar/>
         <Paper shadow="xl" radius="xl" withBorder p="xl">
+            <Navbar />
             <Flex
                 direction={'column'}
                 justify="center"
@@ -120,6 +119,5 @@ export default function Login() {
                 </Container>
             )}
         </Paper>
-        </div>
     )
 }

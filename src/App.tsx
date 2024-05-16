@@ -5,6 +5,7 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
 
 const router = createBrowserRouter(
   [
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
           path: '/dashboard',
           element: <Dashboard />
         },
+        {
+          path: '/resetPassword',
+          element: <ResetPassword />
+        }
       ]
     }
   ]
