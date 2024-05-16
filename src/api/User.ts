@@ -1,6 +1,5 @@
-import { getAxiosQuery } from './utils';
+import {getAxiosQuery} from "./Utils.ts";
 
-
-export const getUserByEmail = (email: string) => {
-    getAxiosQuery(`users/${email}`);
+export const getUserByEmail = async (email: string) => {
+    return await getAxiosQuery(`users/${email}`);
 }

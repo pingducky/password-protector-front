@@ -1,7 +1,7 @@
-import { Container, Flex, Paper, PasswordInput, TextInput } from "@mantine/core";
+import {Container, Flex, Paper, PasswordInput, TextInput} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Navbar from "../components/shared/Navbar";
 
 export default function Login() {
@@ -28,8 +28,7 @@ export default function Login() {
             if (true) { // un compte est associé au mail
                 setIsEmailValidated(true);
                 setErrorEmail(false);
-            }
-            else {
+            } else {
                 setErrorEmail('Ouups, aucun compte associé à cette adresse email n\'existe.');
             }
         }
@@ -52,7 +51,7 @@ export default function Login() {
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Navbar />
+            <Navbar/>
             <Flex
                 direction={'column'}
                 justify="center"
@@ -69,7 +68,8 @@ export default function Login() {
 
                 {isEmailValidated && (
                     <Container>
-                        <TextInput disabled={true} value={email} label="Email" placeholder="email" w={'300px'} mb={'15px'} />
+                        <TextInput disabled={true} value={email} label="Email" placeholder="email" w={'300px'}
+                                   mb={'15px'}/>
                         <PasswordInput
                             label="Mot de passe"
                             placeholder="mot de passe"

@@ -1,4 +1,4 @@
-import { Image } from "@mantine/core";
+import {Image} from "@mantine/core";
 
 export default function ErrorPage() {
     return (

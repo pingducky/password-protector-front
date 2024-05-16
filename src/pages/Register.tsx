@@ -1,7 +1,7 @@
 import {Formik} from "formik";
 import {Box, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import Navbar from "../components/shared/Navbar.tsx";
 
@@ -66,13 +66,13 @@ export default function Register() {
                     }}
                 >
                     {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                    }) => (
+                          values,
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          handleSubmit,
+                      }) => (
                         <form onSubmit={handleSubmit}>
                             <TextInput
                                 type="email"
@@ -128,7 +128,7 @@ export default function Register() {
                                 required
                             />
 
-                            <PasswordStrengthBar password={values.password} />
+                            <PasswordStrengthBar password={values.password}/>
 
                             <PasswordInput
                                 type="password"
@@ -146,8 +146,10 @@ export default function Register() {
                                 <CustomizeButton text='Incription' type='submit'>
                                 </CustomizeButton>
                             </Box>
-                            <Box >
-                                <CustomizeButton type={"button"} variant="transparent" onClick={() => navigate('/login')} text={"Se connecter"}></CustomizeButton>
+                            <Box>
+                                <CustomizeButton type={"button"} variant="transparent"
+                                                 onClick={() => navigate('/login')}
+                                                 text={"Se connecter"}></CustomizeButton>
                             </Box>
                         </form>
                     )}
