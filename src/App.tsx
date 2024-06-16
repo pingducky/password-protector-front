@@ -1,5 +1,4 @@
 import './App.css'
-import '@mantine/core/styles.css';
 import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Dashboard from './pages/Dashboard';

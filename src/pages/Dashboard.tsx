@@ -2,6 +2,7 @@ import {Box, Button, Grid} from '@mantine/core';
 import Navbar from "../components/shared/Navbar.tsx";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import DeleteIcon from "../components/shared/Icons.tsx";
+import {getUserByEmail} from "../api/User.ts";
 
 interface Element {
     id: number;
@@ -28,6 +29,10 @@ export default function Dashboard() {
     const handleEdit = (element: Element) => {
         // Handle edit action here
         console.log(`Edit: ${element.id}`);
+
+        getUserByEmail("vdiribarne@gmail.com").then(response => {
+
+        });
     };
 
     const handleDelete = (element: Element) => {
