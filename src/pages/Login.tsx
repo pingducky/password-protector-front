@@ -1,14 +1,15 @@
-import { Container, Flex, Paper, PasswordInput, TextInput } from "@mantine/core";
+import {Container, Flex, Paper, PasswordInput, TextInput} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Navbar from "../components/shared/Navbar";
+import {connectUser, getUserByEmail} from "../api/User.ts";
 
 export default function Login() {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const [isEmailValidated, setIsEmailValidated] = useState(false);
@@ -20,7 +21,7 @@ export default function Login() {
     const passwordMinLenght = 8;
 
     const handleCheckEmail = () => {
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(username)) {
             setIsEmailValidated(false);
             setErrorEmail('Email invalide.');
         } else {
@@ -28,65 +29,60 @@ export default function Login() {
             if (true) { // un compte est associé au mail
                 setIsEmailValidated(true);
                 setErrorEmail(false);
-            }
-            else {
+            } else {
                 setErrorEmail('Ouups, aucun compte associé à cette adresse email n\'existe.');
             }
         }
     }
 
     const handleCheckPassword = () => {
-        if (password.length < passwordMinLenght) {
+        /*if (password.length < passwordMinLenght) {
             setErrorPassword('Le format est invalide.');
-        }
-        // ici faire un fetch api pour vérifier si le mot de passse correspond à l'email en BdD.
+        }*/
+
+        connectUser(username, password).then((response) => {
+            console.log(response);
+
+            if (response.status === 200) {
+                getUserByEmail(username).then((response) => {
+                    console.log(response);
+                });
+            }
+        });
+        // ici faire un fetch api pour vérifier si le mot de passe correspond à l'email en BdD.
     }
 
     const handleConnect = () => {
-        if (!isEmailValidated) {
-            handleCheckEmail();
-        } else {
-            handleCheckPassword();
-        }
+        handleCheckPassword();
     }
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Navbar />
-            <Flex
-                direction={'column'}
-                justify="center"
-                align="center"
-            >
-                {!isEmailValidated && (
-                    <TextInput
-                        label="Email"
-                        placeholder="email"
-                        onChange={(event) => setEmail(event.currentTarget.value.toLocaleLowerCase())}
-                        w={'300px'}
-                        error={errorEmail}
-                    />)}
+            <Navbar/>
+            <Flex direction={'column'} justify="center" align="center">
+                <TextInput
+                    label="Email"
+                    placeholder="email"
+                    onChange={(event) => setUsername(event.currentTarget.value.toLocaleLowerCase())}
+                    w={'300px'}
+                    error={errorEmail}
+                />
 
-                {isEmailValidated && (
-                    <Container>
-                        <TextInput disabled={true} value={email} label="Email" placeholder="email" w={'300px'} mb={'15px'} />
-                        <PasswordInput
-                            label="Mot de passe"
-                            placeholder="mot de passe"
-                            w={'300px'}
-                            error={errorPassword}
-                            onChange={(event) => setPassword(event.currentTarget.value)}
-                            mb={15}
-                        />
-                    </Container>
-                )}
+                <PasswordInput
+                    label="Mot de passe"
+                    placeholder="mot de passe"
+                    w={'300px'}
+                    error={errorPassword}
+                    onChange={(event) => setPassword(event.currentTarget.value)}
+                    mb={15}
+                />
             </Flex>
 
             <Flex direction={"column"} align={"center"}>
                 <CustomizeButton
                     variant="filled"
                     onClick={handleConnect}
-                    text={!isEmailValidated ? "Suivant" : "Se connecter"}
+                    text={"Se connecter"}
                     type="button"
                     width="250"
                 />

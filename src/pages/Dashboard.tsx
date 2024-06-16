@@ -2,6 +2,7 @@ import {Box, Button, Grid} from '@mantine/core';
 import Navbar from "../components/shared/Navbar.tsx";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import DeleteIcon from "../components/shared/Icons.tsx";
+import {getUserByEmail} from "../api/User.ts";
 
 interface Element {
     id: number;
@@ -28,6 +29,10 @@ export default function Dashboard() {
     const handleEdit = (element: Element) => {
         // Handle edit action here
         console.log(`Edit: ${element.id}`);
+
+        getUserByEmail("vdiribarne@gmail.com").then(response => {
+
+        });
     };
 
     const handleDelete = (element: Element) => {
@@ -38,19 +43,25 @@ export default function Dashboard() {
     return (
         <Box>
             <Navbar/>
-            <CustomizeButton text={"Nouvel élément"} type={"button"} />
+            <CustomizeButton text={"Nouvel élément"} type={"button"}/>
             <Grid justify="center" align="flex-start">
-                <Grid.Col span={3}><h3 style={{ color: '#1E88E5' }}>Élément</h3></Grid.Col>
-                <Grid.Col span={3}><h3 style={{ color: '#1E88E5' }}>Propriétaire</h3></Grid.Col>
-                <Grid.Col span={3}><h3 style={{ color: '#1E88E5' }}>Actions</h3></Grid.Col>
+                <Grid.Col span={3}><h3 style={{color: '#1E88E5'}}>Élément</h3></Grid.Col>
+                <Grid.Col span={3}><h3 style={{color: '#1E88E5'}}>Propriétaire</h3></Grid.Col>
+                <Grid.Col span={3}><h3 style={{color: '#1E88E5'}}>Actions</h3></Grid.Col>
             </Grid>
             {elementtest.map((element: Element) => (
                 <Grid justify="center" align="flex-start" key={element.id} onClick={() => handleRowClick(element)}>
                     <Grid.Col m={10} span={3}>{element.name}</Grid.Col>
                     <Grid.Col m={10} span={3}>{element.proprietaire}</Grid.Col>
                     <Grid.Col m={10} span={3}>
-                        <Button onClick={(e) => { e.stopPropagation(); handleEdit(element); }}>Edit</Button>
-                        <Button  variant={"default"} onClick={(e) => { e.stopPropagation(); handleDelete(element); }}>
+                        <Button onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(element);
+                        }}>Edit</Button>
+                        <Button variant={"default"} onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(element);
+                        }}>
                             <DeleteIcon/>
                         </Button>
                         <DeleteIcon/>
