@@ -1,6 +1,6 @@
-import { Button, ButtonVariant } from "@mantine/core";
+import {Button, ButtonVariant} from "@mantine/core";
 
-type Button = {
+type ButtonType = {
     text: string,
     type: 'button' | 'submit' | 'reset',
     variant?: ButtonVariant
@@ -9,17 +9,17 @@ type Button = {
 }
 
 
-export default function CustomizeButton({ text, type, variant, width, onClick }: Button) {
+export default function CustomizeButton(props: ButtonType) {
     return (
         <Button
             color="violet"
             m={10}
-            type={type}
-            variant={variant}
-            w={width}
-            onClick={onClick}
+            type={props.type}
+            variant={props.variant}
+            w={props.width}
+            onClick={props.onClick}
         >
-            {text}
+            {props.text}
         </Button>
     );
 }

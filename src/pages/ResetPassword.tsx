@@ -1,7 +1,7 @@
-import { Center, Flex, Paper, TextInput } from "@mantine/core";
+import {Center, Flex, Paper, TextInput} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function ResetPassword() {
                     error={errorEmail}
                     onChange={(event) => setEmail(event.currentTarget.value)}
                 />
-                <CustomizeButton text="Récupérer mon mot de passe" type="button" onClick={handleClickResetEmail} />
+                <CustomizeButton text="Récupérer mon mot de passe" type="button" onClick={handleClickResetEmail}/>
                 <CustomizeButton
                     variant="transparent"
                     onClick={() => navigate('/login')}
