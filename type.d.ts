@@ -65,7 +65,6 @@ interface UserConnectRequest extends UserName {
 }
 
 
-
 /* Response */
 interface Response {
     data: {
@@ -145,16 +144,35 @@ interface BackHeaderProps {
     backURL: string
 }
 
-interface TextFieldProps {
+interface InputProps {
     label: string
-    placeholder: string
     isRequired?: boolean | false
+    disabled?: boolean | false
     value?: string
     error?: ErrorProps
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (value: string) => void
+}
+
+interface TextInputProps extends InputProps {
+    placeholder: string
+}
+
+interface SelectInputProps extends InputProps {
+    options: Array<string>
 }
 
 interface ErrorProps {
     errorMessage: string
     errorFunction: (value: string) => boolean
+}
+
+interface EditLineProps {
+    identifier: string
+    password: string
+    setPassword: (value: string) => void
+}
+
+interface BasicLineProps {
+    identifier: string
+    editable: boolean
 }

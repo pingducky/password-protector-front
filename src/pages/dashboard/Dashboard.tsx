@@ -1,9 +1,11 @@
-import { ActionIcon, Box, Divider, Table } from '@mantine/core';
-import { IconExternalLink } from '@tabler/icons-react';
-import DeleteIcon from '../../components/shared/Icons';
+import {ActionIcon, Box, Divider, Table} from '@mantine/core';
+import {IconExternalLink} from '@tabler/icons-react';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
+import {getElementsByUsername} from '../../api/Dashboard';
+import {useEffect, useState} from "react";
+import DeleteIcon from "../../components/shared/svg/DeleteIcon.tsx";
 
 // interface Element {
 //     id: number;
@@ -11,70 +13,49 @@ import styles from './Dashboard.module.scss';
 //     proprietaire: string;
 // }
 
-const elementtest = [];
-const websiteNames = [
-    'google',
-    'facebook',
-    'youtube',
-    'amazon',
-    'wikipedia',
-    'twitter',
-    'instagram',
-    'linkedin',
-    'reddit',
-    'netflix',
-    'ebay',
-    'pinterest',
-    'bing',
-    'yahoo',
-    'github',
-    'twitch',
-    'medium',
-    'nytimes',
-    'cnn',
-    'bbc'
-];
-
-
-for (let i = 0; i < 20; i++) {
-    elementtest.push({
-        id: i,
-        name: websiteNames[i % websiteNames.length].toUpperCase(),
-        proprietaire: 'Anthony'
-    });
-}
 export default function Dashboard() {
+    const [userElements, setUserElements] = useState<BasicElement[]>([]);
+
+    useEffect(() => {
+        getElementsByUsername('mistervinvin').then((response) => {
+            if (response?.ok) {
+                setUserElements(response.data as BasicElement[]);
+            }
+        });
+    }, []);
+
     return (
         <Box className={styles.root}>
-            <Navbar />
+            <Navbar/>
             <div className={styles.newElementContainer}>
-                <CustomizeButton text={"Nouvel élément"} type={"button"} />
+                <CustomizeButton text={"Nouvel élément"} type={"button"}/>
             </div>
-            <Divider />
+            <Divider/>
             <Table.ScrollContainer minWidth={700}>
-                <Table highlightOnHover withTableBorder >
+                <Table highlightOnHover withTableBorder>
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th>Nom</Table.Th>
-                            <Table.Th>Propriétaire</Table.Th>
+                            <Table.Th>URL</Table.Th>
                             <Table.Th>Dernière modification</Table.Th>
+                            <Table.Th>Description</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                         {
-                            elementtest.map((element) => (
+                            userElements.map((element) => (
                                 <Table.Tr key={element.id}>
                                     <Table.Td>{element.name}</Table.Td>
-                                    <Table.Td>{element.proprietaire}</Table.Td>
-                                    <Table.Td>{new Date().toLocaleDateString()}</Table.Td>
+                                    <Table.Td>{element.url}</Table.Td>
+                                    <Table.Td>{element.creationDate}</Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <IconExternalLink />
+                                            <IconExternalLink/>
                                         </ActionIcon>
                                     </Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <DeleteIcon />
+                                            <DeleteIcon/>
                                         </ActionIcon>
                                     </Table.Td>
                                 </Table.Tr>
