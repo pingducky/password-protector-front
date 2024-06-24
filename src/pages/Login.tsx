@@ -1,4 +1,4 @@
-import {Container, Flex, Paper, PasswordInput, TextInput} from "@mantine/core";
+import {Container, Flex, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -12,44 +12,30 @@ export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [isEmailValidated, setIsEmailValidated] = useState(false);
-    const [errorEmail, setErrorEmail] = useState<string | boolean>(false);
+    const [errorUsername, seterrorUsername] = useState<string | boolean>(false);
     const [errorPassword, setErrorPassword] = useState<string | boolean>(false);
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    const passwordMinLenght = 8;
-
-    const handleCheckEmail = () => {
-        if (!emailRegex.test(username)) {
-            setIsEmailValidated(false);
-            setErrorEmail('Email invalide.');
-        } else {
-            // ici faire un fetch api pour vérifier si un compte est associé à un mail en BdD.
-            if (true) { // un compte est associé au mail
-                setIsEmailValidated(true);
-                setErrorEmail(false);
-            } else {
-                setErrorEmail('Ouups, aucun compte associé à cette adresse email n\'existe.');
-            }
-        }
-    }
+    // const passwordMinLenght = 8;
 
     const handleCheckPassword = () => {
         /*if (password.length < passwordMinLenght) {
             setErrorPassword('Le format est invalide.');
         }*/
-
-        connectUser(username, password).then((response) => {
-            console.log(response);
-
-            if (response.status === 200) {
-                getUserByEmail(username).then((response) => {
-                    console.log(response);
-                });
-            }
-        });
-        // ici faire un fetch api pour vérifier si le mot de passe correspond à l'email en BdD.
+        if(!username){
+            seterrorUsername('Identifiant requis.');
+        }else if(!password){
+            seterrorUsername(false);
+            setErrorPassword('Mot de passe requis.');
+        }else{
+            setErrorPassword(false);
+            connectUser(username, password).then((response) => {
+                if (response.status === 200) {
+                    navigate('/dashboard')
+                }else{
+                    setErrorPassword('Identifiant ou mot de passe incorrect.');
+                }
+            });
+        }
     }
 
     const handleConnect = () => {
@@ -60,17 +46,18 @@ export default function Login() {
         <Paper shadow="xl" radius="xl" withBorder p="xl">
             <Navbar/>
             <Flex direction={'column'} justify="center" align="center">
+                <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
                 <TextInput
-                    label="Email"
-                    placeholder="email"
+                    label="Identifiant"
+                    placeholder="Identifiant"
                     onChange={(event) => setUsername(event.currentTarget.value.toLocaleLowerCase())}
                     w={'300px'}
-                    error={errorEmail}
+                    error={errorUsername}
                 />
 
                 <PasswordInput
                     label="Mot de passe"
-                    placeholder="mot de passe"
+                    placeholder="Mot de passe"
                     w={'300px'}
                     error={errorPassword}
                     onChange={(event) => setPassword(event.currentTarget.value)}
@@ -87,33 +74,20 @@ export default function Login() {
                     width="250"
                 />
 
-                {!isEmailValidated && (
-                    <CustomizeButton
-                        variant="transparent"
-                        onClick={() => navigate('/register')}
-                        text="Se créer un compte"
-                        type="button"
-                    />
-                )}
+                <CustomizeButton
+                    variant="transparent"
+                    onClick={() => navigate('/register')}
+                    text="Créer un compte"
+                    type="button"
+                />
 
+                <CustomizeButton
+                    variant="transparent"
+                    onClick={() => navigate('/resetPassword')}
+                    text="Mot de passe oublié ?"
+                    type="button"
+                />
             </Flex>
-
-            {isEmailValidated && (
-                <Container>
-                    <CustomizeButton
-                        variant="transparent"
-                        onClick={() => setIsEmailValidated(false)}
-                        text="Se connecter avec un compte différent"
-                        type="button"
-                    />
-                    <CustomizeButton
-                        variant="transparent"
-                        onClick={() => navigate('/resetPassword')}
-                        text="Mot de passe oublié ?"
-                        type="button"
-                    />
-                </Container>
-            )}
         </Paper>
     )
 }
