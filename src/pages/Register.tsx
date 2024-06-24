@@ -4,7 +4,7 @@ import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import {useNavigate} from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import Navbar from "../components/shared/Navbar.tsx";
-
+import {registerUser} from "../api/User.ts";
 
 export default function Register() {
 
@@ -22,20 +22,31 @@ export default function Register() {
     const validate = (values: IRegisterFormValues) => {
         const errors: Partial<IRegisterFormValues> = {};
 
+        // Regex pour le mot de passe 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et 8 caractères minimum
+        const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // Regex pour l'email
+        const emailRegex  = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+        // Vérification de l'email
         if (!values.email) errors.email = 'Adresse email requise';
-        else if (values.email.length !== 0 && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        else if (values.email.length !== 0 && !emailRegex.test(values.email)) {
             errors.email = 'Adresse email invalide';
         }
-        //TODO : Vérification de l'existance de l'email
 
+        // Vérification des champs username, lastname et firstname
         if (!values.username) errors.username = 'Identifiant requis';
-        //TODO : Vérification de l'existance de l'username
+        if (!values.lastname) errors.lastname = 'Nom requis';
+        if (!values.firstname) errors.firstname = 'Prénom requis';
 
-        if (values.password !== values.confirm && values.confirm) errors.confirm = 'Les mots de passe ne correspondent pas';
-        else if (!values.password) errors.password = 'Mot de passe requis';
+        // Vérification des mots de passe
+        if (!values.password) errors.password = 'Mot de passe requis';
         else if (values.password.length < 8) errors.password = 'Le mot de passe doit contenir au minimum 8 caractères'
+        else if (!passRegex.test(values.password)) errors.password = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial';
 
         if (!values.confirm) errors.confirm = 'Confirmation requise';
+        else if (values.password !== values.confirm && values.confirm) errors.confirm = 'Les mots de passe ne correspondent pas';
+
+        // TODO : Ajouter des conditions de validation pour le mot de passe dans le back
 
         return errors;
     }
@@ -55,14 +66,22 @@ export default function Register() {
                         email: ''
                     }}
                     validate={validate}
-                    onSubmit={(values: IRegisterFormValues, {setSubmitting}) => {
+                    onSubmit={(values: IRegisterFormValues, {setSubmitting, setErrors}) => {
 
-                        delete values.confirm;
-
-                        console.log(JSON.stringify(values, null, 2));
+                        // delete values.confirm;
                         setSubmitting(false);
 
-                        navigate('/');
+                        // Redirection vers la page de connexion si l'inscription est réussie
+                        registerUser(values.firstname, values.lastname, values.username, values.email, values.password).then((response) => {
+                            if(response.data.message == "Email already exists"){
+                                setErrors({email: "L'email est déjà utilisé"});
+                            }else if(response.data.message == "Username already exists"){
+                                setErrors({username: "L'identifiant est déjà utilisé"});
+                            }else if(response.data.message == "Saved"){
+                                navigate('/login');
+                            }
+                        });
+
                     }}
                 >
                     {({
@@ -103,7 +122,9 @@ export default function Register() {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.lastname}
+                                error={!!errors.lastname && touched.lastname && errors.lastname}
                                 mt={15}
+                                required
                             />
                             <TextInput
                                 type="text"
@@ -112,8 +133,9 @@ export default function Register() {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.firstname}
-                                error={!!errors.firstname}
+                                error={!!errors.firstname && touched.firstname && errors.firstname}
                                 mt={15}
+                                required
                             />
                             <PasswordInput
                                 type="password"
@@ -136,8 +158,8 @@ export default function Register() {
                                 placeholder="Confirmation mot de passe"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.confirm}
                                 error={!!errors.confirm && touched.confirm && errors.confirm}
+                                value={values.confirm}
                                 mt={15}
                                 required
                             />
