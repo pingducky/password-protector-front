@@ -1,7 +1,7 @@
-import {Center, Flex, Paper, TextInput, Title} from "@mantine/core";
+import { Center, Flex, Paper, TextInput, Title } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
@@ -20,16 +20,18 @@ export default function ResetPassword() {
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
             <Flex direction='column' align={Center}>
-                <Title order={2} lineClamp={2} mb={25}>Récupérer votre mot de passe</Title>
+                <Title id='resetPasswordTitle' order={2} lineClamp={2} mb={25}>Récupérer votre mot de passe</Title>
                 <TextInput
+                    id="email"
                     label="Email"
                     placeholder="Email"
                     error={errorEmail}
                     mb={25}
                     onChange={(event) => setEmail(event.currentTarget.value)}
                 />
-                <CustomizeButton text="Récupérer mon mot de passe" type="button" onClick={handleClickResetEmail}/>
+                <CustomizeButton id="resetPasswordButton" text="Récupérer mon mot de passe" type="button" onClick={handleClickResetEmail} />
                 <CustomizeButton
+                    id="backToLoginButton"
                     variant="transparent"
                     onClick={() => navigate('/login')}
                     text="Retour à l'espace de connexion"

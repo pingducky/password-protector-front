@@ -1,10 +1,10 @@
-import {Formik} from "formik";
-import {Box, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
+import { Formik } from "formik";
+import { Box, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton.tsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import Navbar from "../components/shared/Navbar.tsx";
-import {registerUser} from "../api/User.ts";
+import { registerUser } from "../api/User.ts";
 
 export default function Register() {
 
@@ -25,7 +25,7 @@ export default function Register() {
         // Regex pour le mot de passe 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et 8 caractères minimum
         const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         // Regex pour l'email
-        const emailRegex  = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
         // Vérification de l'email
         if (!values.email) errors.email = 'Adresse email requise';
@@ -53,9 +53,9 @@ export default function Register() {
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <Paper shadow="xl" radius="xl" withBorder p="xl">
-                <Title order={2} lineClamp={2} mb={25}>Espace d'inscription</Title>
+                <Title id="registerTitlePage" order={2} lineClamp={2} mb={25}>Espace d'inscription</Title>
                 <Formik
                     initialValues={{
                         username: '',
@@ -66,18 +66,19 @@ export default function Register() {
                         email: ''
                     }}
                     validate={validate}
-                    onSubmit={(values: IRegisterFormValues, {setSubmitting, setErrors}) => {
+                    onSubmit={(values: IRegisterFormValues, { setSubmitting, setErrors }) => {
 
                         // delete values.confirm;
                         setSubmitting(false);
 
                         // Redirection vers la page de connexion si l'inscription est réussie
                         registerUser(values.firstname, values.lastname, values.username, values.email, values.password).then((response) => {
-                            if(response.data.message == "Email already exists"){
-                                setErrors({email: "L'email est déjà utilisé"});
-                            }else if(response.data.message == "Username already exists"){
-                                setErrors({username: "L'identifiant est déjà utilisé"});
-                            }else if(response.data.message == "Saved"){
+                            if (response?.data.message == "Email already exists") {
+                                setErrors({ email: "L'email est déjà utilisé" });
+                            } else if (response?.data.message == "Username already exists") {
+                                setErrors({ username: "L'identifiant est déjà utilisé" });
+                            } else if (response?.data.message == "Saved") {
+                                console.debug('redirection login')
                                 navigate('/login');
                             }
                         });
@@ -85,15 +86,16 @@ export default function Register() {
                     }}
                 >
                     {({
-                          values,
-                          errors,
-                          touched,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                      }) => (
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                    }) => (
                         <form onSubmit={handleSubmit}>
                             <TextInput
+                                id='email'
                                 type="email"
                                 name="email"
                                 placeholder="Email"
@@ -105,6 +107,7 @@ export default function Register() {
                                 required
                             />
                             <TextInput
+                                id='username'
                                 type="text"
                                 name="username"
                                 placeholder="Identifiant"
@@ -116,6 +119,7 @@ export default function Register() {
                                 required
                             />
                             <TextInput
+                                id='lastname'
                                 type="text"
                                 name="lastname"
                                 placeholder="Nom"
@@ -127,6 +131,7 @@ export default function Register() {
                                 required
                             />
                             <TextInput
+                                id="firstname"
                                 type="text"
                                 name="firstname"
                                 placeholder="Prénom"
@@ -138,6 +143,7 @@ export default function Register() {
                                 required
                             />
                             <PasswordInput
+                                id="password"
                                 type="password"
                                 name="password"
                                 placeholder="Mot de passe"
@@ -150,9 +156,10 @@ export default function Register() {
                                 required
                             />
 
-                            <PasswordStrengthBar password={values.password}/>
+                            <PasswordStrengthBar password={values.password} />
 
                             <PasswordInput
+                                id='passwordConfirmation'
                                 type="password"
                                 name="confirm"
                                 placeholder="Confirmation mot de passe"
@@ -165,13 +172,13 @@ export default function Register() {
                             />
 
                             <Box mt={15}>
-                                <CustomizeButton text='Incription' type='submit'>
+                                <CustomizeButton id='submit' text='Incription' type='submit'>
                                 </CustomizeButton>
                             </Box>
                             <Box>
                                 <CustomizeButton type={"button"} variant="transparent"
-                                                 onClick={() => navigate('/login')}
-                                                 text={"Se connecter"}></CustomizeButton>
+                                    onClick={() => navigate('/login')}
+                                    text={"Se connecter"}></CustomizeButton>
                             </Box>
                         </form>
                     )}

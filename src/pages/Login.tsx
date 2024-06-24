@@ -47,13 +47,14 @@ export default function Login() {
         <Paper shadow="xl" radius="xl" withBorder p="xl">
             <Navbar />
             <Flex direction={'column'} justify="center" align="center">
-                <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
+                <Title id='connexionSpace' order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
                 <TextInput
                     label="Identifiant"
                     placeholder="Identifiant"
                     onChange={(event) => setUsername(event.currentTarget.value.toLocaleLowerCase())}
                     w={'300px'}
                     error={errorUsername}
+                    id="username"
                 />
 
                 <PasswordInput
@@ -63,6 +64,7 @@ export default function Login() {
                     error={errorPassword}
                     onChange={(event) => setPassword(event.currentTarget.value)}
                     mb={15}
+                    id="password"
                 />
             </Flex>
 
@@ -76,6 +78,7 @@ export default function Login() {
                 />
 
                 <CustomizeButton
+                    id="createAccountButton"
                     variant="transparent"
                     onClick={() => navigate('/register')}
                     text="Créer un compte"
@@ -83,6 +86,7 @@ export default function Login() {
                 />
 
                 <CustomizeButton
+                    id="resetPasswordButton"
                     variant="transparent"
                     onClick={() => navigate('/resetPassword')}
                     text="Mot de passe oublié ?"

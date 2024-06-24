@@ -39,7 +39,7 @@ export default function Dashboard() {
         <Box className={styles.root}>
             <Navbar />
             <div className={styles.newElementContainer}>
-                <CustomizeButton text={"Nouvel élément"} type={"button"} />
+                <CustomizeButton id='addElementButton' text={"Nouvel élément"} type={"button"} />
             </div>
             <Divider />
             <Table.ScrollContainer minWidth={700}>
