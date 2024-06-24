@@ -4,18 +4,31 @@ import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
-import { getElementsByUsername } from '../../api/Dashboard';
+import { deleteElementById, getElementsByUsername } from '../../api/Dashboard';
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
     const [userElements, setUserElements] = useState<BasicElement[]>([]);
+    const username = localStorage.getItem('username');
+
+    const deleteElement = async (elementId: string) => {
+        if (username) {
+            deleteElementById(username, elementId).then((response) => {
+                if (response?.ok) {
+                    setUserElements(userElements.filter((element) => element.id !== elementId));
+                }
+            });
+        }
+    };
 
     useEffect(() => {
-        getElementsByUsername('mistervinvin').then((response) => {
-            if (response?.ok) {
-                setUserElements(response.data as BasicElement[]);
-            }
-        });
+        if (username) {
+            getElementsByUsername(username).then((response) => {
+                if (response?.ok) {
+                    setUserElements(response.data as BasicElement[]);
+                }
+            });
+        }
     }, []);
 
     return (
@@ -32,7 +45,6 @@ export default function Dashboard() {
                             <Table.Th>Nom</Table.Th>
                             <Table.Th>URL</Table.Th>
                             <Table.Th>Dernière modification</Table.Th>
-                            <Table.Th>Description</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -48,7 +60,7 @@ export default function Dashboard() {
                                         </ActionIcon>
                                     </Table.Td>
                                     <Table.Td>
-                                        <ActionIcon aria-label="Settings" p={3} color='violet'>
+                                        <ActionIcon aria-label="Settings" p={3} color='violet' onClick={() => deleteElement(element.id)}>
                                             <DeleteIcon />
                                         </ActionIcon>
                                     </Table.Td>
