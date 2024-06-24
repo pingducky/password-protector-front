@@ -1,5 +1,5 @@
 import {Center, Flex, Paper, TextInput, Title} from "@mantine/core";
-import CustomizeButton from "../components/shared/CustomizeButton";
+import CustomizeButton from "../../components/shared/CustomizeButton";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 

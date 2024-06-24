@@ -9,6 +9,7 @@ interface BasicResponse {
 }
 
 /* Request */
+
 //Element
 interface ElementUpdateRequest {
     name: string
@@ -65,10 +66,11 @@ interface UserConnectRequest extends UserName {
 
 
 
-
 /* Response */
 interface Response {
-    message: string
+    data: {
+        message: string
+    }
 }
 
 interface Date {
@@ -134,4 +136,25 @@ interface BasicType {
 
 interface Type extends BasicType, Date {
     user: BasicUser
+}
+
+
+//Props
+interface BackHeaderProps {
+    title: string,
+    backURL: string
+}
+
+interface TextFieldProps {
+    label: string
+    placeholder: string
+    isRequired?: boolean | false
+    value?: string
+    error?: ErrorProps
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+interface ErrorProps {
+    errorMessage: string
+    errorFunction: (value: string) => boolean
 }

@@ -1,10 +1,13 @@
 import './App.css'
 import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import ResetPassword from './pages/ResetPassword';
+import ErrorPage from './pages/error/ErrorPage';
+import Dashboard from './pages/dashboard/Dashboard';
+import Login from "./pages/login/Login.tsx";
+import Register from "./pages/login/Register.tsx";
+import ResetPassword from "./pages/login/ResetPassword.tsx";
+import Detail from "./pages/detail/DetailPanel.tsx";
+import {Provider} from "react-redux";
+import store from "./store/store.ts";
 
 const router = createBrowserRouter(
     [
@@ -31,6 +34,10 @@ const router = createBrowserRouter(
                 {
                     path: '/resetPassword',
                     element: <ResetPassword/>
+                },
+                {
+                    path: '/detail/:id',
+                    element: <Detail/>
                 }
             ]
         }
@@ -39,14 +46,14 @@ const router = createBrowserRouter(
 
 function Root() {
     return (
-        <div>
-            <Outlet/>
-        </div>
+        <Outlet/>
     )
 }
 
 export default function App() {
     return (
-        <RouterProvider router={router}/>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
     );
 }
