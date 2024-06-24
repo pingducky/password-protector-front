@@ -1,29 +1,38 @@
-import { ActionIcon, Box, Divider, Table } from '@mantine/core';
-import { IconExternalLink } from '@tabler/icons-react';
+import {ActionIcon, Box, Divider, Table} from '@mantine/core';
+import {IconExternalLink} from '@tabler/icons-react';
 import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
-import { getElementsByUsername } from '../../api/Dashboard';
+import {getElementsByUsername} from '../../api/Dashboard';
+import {useEffect, useState} from "react";
 
-interface Element {
-    id: number;
-    name: string;
-    proprietaire: string;
-}
-
-const userElements = await getElementsByUsername('mistervinvin');
+// interface Element {
+//     id: number;
+//     name: string;
+//     proprietaire: string;
+// }
 
 export default function Dashboard() {
+    const [userElements, setUserElements] = useState<BasicElement[]>([]);
+
+    useEffect(() => {
+        getElementsByUsername('mistervinvin').then((response) => {
+            if (response?.ok) {
+                setUserElements(response as BasicElement[]);
+            }
+        });
+    }, []);
+
     return (
         <Box className={styles.root}>
-            <Navbar />
+            <Navbar/>
             <div className={styles.newElementContainer}>
-                <CustomizeButton text={"Nouvel élément"} type={"button"} />
+                <CustomizeButton text={"Nouvel élément"} type={"button"}/>
             </div>
-            <Divider />
+            <Divider/>
             <Table.ScrollContainer minWidth={700}>
-                <Table highlightOnHover withTableBorder >
+                <Table highlightOnHover withTableBorder>
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th>Nom</Table.Th>
@@ -34,20 +43,19 @@ export default function Dashboard() {
                     </Table.Thead>
                     <Table.Tbody>
                         {
-                            userElements?.data.map((element) => (
+                            userElements.map((element) => (
                                 <Table.Tr key={element.id}>
                                     <Table.Td>{element.name}</Table.Td>
                                     <Table.Td>{element.url}</Table.Td>
                                     <Table.Td>{element.creationDate}</Table.Td>
-                                    <Table.Td>{element.description}</Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <IconExternalLink />
+                                            <IconExternalLink/>
                                         </ActionIcon>
                                     </Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <DeleteIcon />
+                                            <DeleteIcon/>
                                         </ActionIcon>
                                     </Table.Td>
                                 </Table.Tr>

@@ -77,7 +77,7 @@ interface Date {
 }
 
 //Element
-interface BasicElement {
+interface BasicElement extends Date {
     id: string
     name: string
     url: string
