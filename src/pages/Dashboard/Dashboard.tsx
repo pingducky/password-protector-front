@@ -6,9 +6,11 @@ import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
 import { deleteElementById, getElementsByUsername } from '../../api/Dashboard';
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [userElements, setUserElements] = useState<BasicElement[]>([]);
+    const navigate = useNavigate();
     const username = localStorage.getItem('username');
 
     const deleteElement = async (elementId: string) => {
@@ -28,6 +30,8 @@ export default function Dashboard() {
                     setUserElements(response.data as BasicElement[]);
                 }
             });
+        } else {
+            navigate('/login');
         }
     }, []);
 
