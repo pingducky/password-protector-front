@@ -1,9 +1,9 @@
-import {Container, Flex, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
+import { Flex, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
 import CustomizeButton from "../components/shared/CustomizeButton";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/shared/Navbar";
-import {connectUser, getUserByEmail} from "../api/User.ts";
+import { connectUser } from "../api/User.ts";
 
 export default function Login() {
 
@@ -21,17 +21,17 @@ export default function Login() {
         /*if (password.length < passwordMinLenght) {
             setErrorPassword('Le format est invalide.');
         }*/
-        if(!username){
+        if (!username) {
             seterrorUsername('Identifiant requis.');
-        }else if(!password){
+        } else if (!password) {
             seterrorUsername(false);
             setErrorPassword('Mot de passe requis.');
-        }else{
+        } else {
             setErrorPassword(false);
             connectUser(username, password).then((response) => {
                 if (response.status === 200) {
                     navigate('/dashboard')
-                }else{
+                } else {
                     setErrorPassword('Identifiant ou mot de passe incorrect.');
                 }
             });
@@ -44,7 +44,7 @@ export default function Login() {
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Navbar/>
+            <Navbar />
             <Flex direction={'column'} justify="center" align="center">
                 <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
                 <TextInput
