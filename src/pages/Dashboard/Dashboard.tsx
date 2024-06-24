@@ -1,17 +1,11 @@
-import {ActionIcon, Box, Divider, Table} from '@mantine/core';
-import {IconExternalLink} from '@tabler/icons-react';
+import { ActionIcon, Box, Divider, Table } from '@mantine/core';
+import { IconExternalLink } from '@tabler/icons-react';
 import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
-import {getElementsByUsername} from '../../api/Dashboard';
-import {useEffect, useState} from "react";
-
-// interface Element {
-//     id: number;
-//     name: string;
-//     proprietaire: string;
-// }
+import { getElementsByUsername } from '../../api/Dashboard';
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
     const [userElements, setUserElements] = useState<BasicElement[]>([]);
@@ -19,18 +13,18 @@ export default function Dashboard() {
     useEffect(() => {
         getElementsByUsername('mistervinvin').then((response) => {
             if (response?.ok) {
-                setUserElements(response as BasicElement[]);
+                setUserElements(response.data as BasicElement[]);
             }
         });
     }, []);
 
     return (
         <Box className={styles.root}>
-            <Navbar/>
+            <Navbar />
             <div className={styles.newElementContainer}>
-                <CustomizeButton text={"Nouvel élément"} type={"button"}/>
+                <CustomizeButton text={"Nouvel élément"} type={"button"} />
             </div>
-            <Divider/>
+            <Divider />
             <Table.ScrollContainer minWidth={700}>
                 <Table highlightOnHover withTableBorder>
                     <Table.Thead>
@@ -50,12 +44,12 @@ export default function Dashboard() {
                                     <Table.Td>{element.creationDate}</Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <IconExternalLink/>
+                                            <IconExternalLink />
                                         </ActionIcon>
                                     </Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <DeleteIcon/>
+                                            <DeleteIcon />
                                         </ActionIcon>
                                     </Table.Td>
                                 </Table.Tr>
