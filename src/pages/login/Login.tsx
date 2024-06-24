@@ -6,7 +6,6 @@ import Navbar from "../../components/shared/Navbar";
 import {connectUser} from "../../api/User.ts";
 
 export default function Login() {
-
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
@@ -21,17 +20,17 @@ export default function Login() {
         /*if (password.length < passwordMinLenght) {
             setErrorPassword('Le format est invalide.');
         }*/
-        if(!username){
+        if (!username) {
             setErrorUsername('Identifiant requis.');
-        }else if(!password){
+        } else if (!password) {
             setErrorUsername(false);
             setErrorPassword('Mot de passe requis.');
-        }else{
+        } else {
             setErrorPassword(false);
             connectUser(username, password).then((response) => {
                 if (response.status === 200) {
                     navigate('/dashboard')
-                }else{
+                } else {
                     setErrorPassword('Identifiant ou mot de passe incorrect.');
                 }
             });

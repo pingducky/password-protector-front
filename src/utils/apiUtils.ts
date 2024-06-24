@@ -29,7 +29,7 @@ async function createQuery<R, B>(url: string, method: Method, body?: B) {
     if (response.status === 403) {
         const refreshTokenResponse = await fetchAPI<BasicResponse, never>("user/refreshToken", Method.POST)
 
-        return refreshTokenResponse.ok ? await fetchAPI<R, B>(url, method, body) : refreshTokenResponse
+        return refreshTokenResponse.ok ? await fetchAPI<R, B>(url, method, body) : null
     } else {
         return response
     }
