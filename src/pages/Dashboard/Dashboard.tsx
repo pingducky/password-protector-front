@@ -1,36 +1,47 @@
-import {ActionIcon, Box, Divider, Table} from '@mantine/core';
-import {IconExternalLink} from '@tabler/icons-react';
+import { ActionIcon, Box, Divider, Table } from '@mantine/core';
+import { IconExternalLink } from '@tabler/icons-react';
 import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
-import {getElementsByUsername} from '../../api/Dashboard';
-import {useEffect, useState} from "react";
-
-// interface Element {
-//     id: number;
-//     name: string;
-//     proprietaire: string;
-// }
+import { deleteElementById, getElementsByUsername } from '../../api/Dashboard';
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [userElements, setUserElements] = useState<BasicElement[]>([]);
+    const navigate = useNavigate();
+    const username = localStorage.getItem('username');
+
+    const deleteElement = async (elementId: string) => {
+        if (username) {
+            deleteElementById(username, elementId).then((response) => {
+                if (response?.ok) {
+                    setUserElements(userElements.filter((element) => element.id !== elementId));
+                }
+            });
+        }
+    };
 
     useEffect(() => {
-        getElementsByUsername('mistervinvin').then((response) => {
-            if (response?.ok) {
-                setUserElements(response as BasicElement[]);
-            }
-        });
+        if (username) {
+            getElementsByUsername(username).then((response) => {
+                if (response?.ok) {
+                    setUserElements(response.data as BasicElement[]);
+                }
+            });
+        } else {
+            navigate('/login');
+        }
     }, []);
 
     return (
         <Box className={styles.root}>
-            <Navbar/>
+            <Navbar />
             <div className={styles.newElementContainer}>
-                <CustomizeButton text={"Nouvel élément"} type={"button"}/>
+                <CustomizeButton text={"Nouvel élément"} type={"button"} />
             </div>
-            <Divider/>
+            <Divider />
             <Table.ScrollContainer minWidth={700}>
                 <Table highlightOnHover withTableBorder>
                     <Table.Thead>
@@ -38,7 +49,6 @@ export default function Dashboard() {
                             <Table.Th>Nom</Table.Th>
                             <Table.Th>URL</Table.Th>
                             <Table.Th>Dernière modification</Table.Th>
-                            <Table.Th>Description</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -50,12 +60,12 @@ export default function Dashboard() {
                                     <Table.Td>{element.creationDate}</Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <IconExternalLink/>
+                                            <IconExternalLink />
                                         </ActionIcon>
                                     </Table.Td>
                                     <Table.Td>
-                                        <ActionIcon aria-label="Settings" p={3} color='violet'>
-                                            <DeleteIcon/>
+                                        <ActionIcon aria-label="Settings" p={3} color='violet' onClick={() => deleteElement(element.id)}>
+                                            <DeleteIcon />
                                         </ActionIcon>
                                     </Table.Td>
                                 </Table.Tr>

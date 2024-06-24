@@ -29,6 +29,7 @@ export default function Login() {
             setErrorPassword(false);
             connectUser(username, password).then((response) => {
                 if (response.status === 200) {
+                    localStorage.setItem('username', username);
                     navigate('/dashboard')
                 } else {
                     setErrorPassword('Identifiant ou mot de passe incorrect.');
