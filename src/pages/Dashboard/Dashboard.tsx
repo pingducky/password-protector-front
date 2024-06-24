@@ -4,6 +4,7 @@ import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
+import { getElementsByUsername } from '../../api/Dashboard';
 
 interface Element {
     id: number;
@@ -11,38 +12,8 @@ interface Element {
     proprietaire: string;
 }
 
-const elementtest = [];
-const websiteNames = [
-    'google',
-    'facebook',
-    'youtube',
-    'amazon',
-    'wikipedia',
-    'twitter',
-    'instagram',
-    'linkedin',
-    'reddit',
-    'netflix',
-    'ebay',
-    'pinterest',
-    'bing',
-    'yahoo',
-    'github',
-    'twitch',
-    'medium',
-    'nytimes',
-    'cnn',
-    'bbc'
-];
+const userElements = await getElementsByUsername('mistervinvin');
 
-
-for (let i = 0; i < 20; i++) {
-    elementtest.push({
-        id: i,
-        name: websiteNames[i % websiteNames.length].toUpperCase(),
-        proprietaire: 'Anthony'
-    });
-}
 export default function Dashboard() {
     return (
         <Box className={styles.root}>
@@ -56,17 +27,19 @@ export default function Dashboard() {
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th>Nom</Table.Th>
-                            <Table.Th>Propriétaire</Table.Th>
+                            <Table.Th>URL</Table.Th>
                             <Table.Th>Dernière modification</Table.Th>
+                            <Table.Th>Description</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                         {
-                            elementtest.map((element) => (
+                            userElements?.data.map((element) => (
                                 <Table.Tr key={element.id}>
                                     <Table.Td>{element.name}</Table.Td>
-                                    <Table.Td>{element.proprietaire}</Table.Td>
-                                    <Table.Td>{new Date().toLocaleDateString()}</Table.Td>
+                                    <Table.Td>{element.url}</Table.Td>
+                                    <Table.Td>{element.creationDate}</Table.Td>
+                                    <Table.Td>{element.description}</Table.Td>
                                     <Table.Td>
                                         <ActionIcon aria-label="Settings" p={3} color='violet'>
                                             <IconExternalLink />
