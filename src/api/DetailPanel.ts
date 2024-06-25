@@ -1,4 +1,4 @@
-import {getQuery, postQuery, putQuery} from "../utils/apiUtils.ts";
+import {fetchWithoutAuth, getQuery, postQuery, putQuery} from "../utils/apiUtils.ts";
 
 function emptyElement() {
     return {
@@ -41,6 +41,10 @@ async function getElementByID(id: string) {
     return await getQuery<Element>("element/id/" + id);
 }
 
+export async function sendSharePasswordEmail(email: string, username: string, passwordId: string) {
+    return await postQuery<BasicResponse, SharePasswordRequest>("password/share", {email, username, passwordId});
+}
+
 async function createElement() {
     return await postQuery<BasicResponse, ElementCreateRequest>("element", {
         name: "",
@@ -64,6 +68,7 @@ async function updatePassword(password: PasswordUpdateRequest, id: string) {
 }
 
 export {
+    sendSharePasswordEmail,
     emptyElement,
     getPassword,
     getTypes,

@@ -8,6 +8,7 @@ import ResetPassword from "./pages/login/ResetPassword.tsx";
 import Detail from "./pages/detail/DetailPanel.tsx";
 import {Provider} from "react-redux";
 import store from "./store/store.ts";
+import SharedPassword from "./pages/detail/SharedPassword.tsx";
 import ChangePassword from "./pages/ChangePassword.tsx";
 
 const router = createBrowserRouter(
@@ -43,6 +44,10 @@ const router = createBrowserRouter(
                 {
                     path: '/reset-password',
                     element: <ChangePassword/>
+                },
+                {
+                    path: '/shared-password',
+                    element: <SharedPassword/>
                 }
             ]
         }

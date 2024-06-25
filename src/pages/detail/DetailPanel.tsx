@@ -234,12 +234,10 @@ function Detail() {
                                                           savePassword={() => finishPassword(password)}
                                                           setIdentifier={value => password.identifier = value}/>
                                             ) : (
-                                                <BasicLine identifier={password.identifier} editable={editPasswordIndex === null}
-                                                           setEditable={() => editLine(index)}/>
+                                                <BasicLine identifier={password.identifier}  editable={editPasswordIndex === null} id={password.id} setEditable={() => editLine(index)}/>
                                             )
                                         ) : (
-                                            <BasicLine identifier={password.identifier} editable={editPasswordIndex === null}
-                                                       setEditable={() => editLine(index)}/>
+                                            <BasicLine identifier={password.identifier}  editable={editPasswordIndex === null} id={password.id} setEditable={() => editLine(index)}/>
                                         )
                                     ))
                                 ) : (

@@ -33,6 +33,12 @@ interface PasswordCreateRequest extends PasswordUpdateRequest {
     elementID: string
 }
 
+interface SharePasswordRequest  {
+    email: string
+    username: string
+    passwordId: string
+}
+
 //Type
 interface TypeRequest {
     name: string
@@ -185,6 +191,7 @@ interface EditLineProps {
 }
 
 interface BasicLineProps {
+    id: string
     identifier: string
     editable: boolean
     setEditable: () => void
