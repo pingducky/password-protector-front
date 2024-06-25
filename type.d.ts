@@ -63,6 +63,16 @@ interface UserConnectRequest extends UserName {
     password: string
 }
 
+interface UpdatePasswordRequest {
+    token: string
+    password: string
+}
+
+interface SendMailRequest {
+    mail: string
+}
+
+
 
 
 

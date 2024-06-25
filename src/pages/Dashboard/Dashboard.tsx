@@ -19,7 +19,7 @@ export default function Dashboard() {
     useEffect(() => {
         getElementsByUsername('mistervinvin').then((response) => {
             if (response?.ok) {
-                setUserElements(response as BasicElement[]);
+                setUserElements(response.data as BasicElement[]);
             }
         });
     }, []);

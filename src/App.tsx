@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
+import ChangePassword from "./pages/ChangePassword.tsx";
 
 const router = createBrowserRouter(
     [
@@ -31,6 +32,10 @@ const router = createBrowserRouter(
                 {
                     path: '/resetPassword',
                     element: <ResetPassword/>
+                },
+                {
+                    path: '/reset-password',
+                    element: <ChangePassword/>
                 }
             ]
         }
