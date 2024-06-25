@@ -48,6 +48,11 @@ describe('Test de la page de login', () => {
 
     it('Login avec l\'id valide et mot de passe valide', () => {
         login('mistervinvin', '1234');
+        cy.visit(urlPath);
+        cy.get('#username').type('mistervinvin');
+        cy.get('#password').type('1234');
+        cy.get('[data-variant="filled"]').click();
+        cy.intercept('GET', 'http://localhost:8080/api/user/login').as('loginRequest');
         cy.get('#addElementButton').should('contain.text', "Nouvel élément");
     });
 });
