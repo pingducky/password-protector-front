@@ -1,12 +1,12 @@
 import './App.css'
-import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/error/ErrorPage';
-import Dashboard from './pages/dashboard/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard.tsx'
 import Login from "./pages/login/Login.tsx";
 import Register from "./pages/login/Register.tsx";
 import ResetPassword from "./pages/login/ResetPassword.tsx";
 import Detail from "./pages/detail/DetailPanel.tsx";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import store from "./store/store.ts";
 import SharedPassword from "./pages/detail/SharedPassword.tsx";
 import ChangePassword from "./pages/ChangePassword.tsx";
@@ -14,40 +14,40 @@ import ChangePassword from "./pages/ChangePassword.tsx";
 const router = createBrowserRouter(
     [
         {
-            element: <Root/>,
-            errorElement: <ErrorPage/>,
+            element: <Root />,
+            errorElement: <ErrorPage />,
             children: [
                 {
                     path: '/',
-                    element: <Dashboard/>
+                    element: <Dashboard />
                 },
                 {
                     path: '/register',
-                    element: <Register/>
+                    element: <Register />
                 },
                 {
                     path: '/login',
-                    element: <Login/>
+                    element: <Login />
                 },
                 {
                     path: '/dashboard',
-                    element: <Dashboard/>
+                    element: <Dashboard />
                 },
                 {
                     path: '/resetPassword',
-                    element: <ResetPassword/>
+                    element: <ResetPassword />
                 },
                 {
                     path: '/detail/:id',
-                    element: <Detail/>
+                    element: <Detail />
                 },
                 {
                     path: '/reset-password',
-                    element: <ChangePassword/>
+                    element: <ChangePassword />
                 },
                 {
                     path: '/shared-password',
-                    element: <SharedPassword/>
+                    element: <SharedPassword />
                 }
             ]
         }
@@ -56,14 +56,14 @@ const router = createBrowserRouter(
 
 function Root() {
     return (
-        <Outlet/>
+        <Outlet />
     )
 }
 
 export default function App() {
     return (
         <Provider store={store}>
-            <RouterProvider router={router}/>
+            <RouterProvider router={router} />
         </Provider>
     );
 }
