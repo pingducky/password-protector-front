@@ -1,4 +1,4 @@
-import {getQuery} from "../utils/apiUtils.ts";
+import {getQuery, postQuery, putQuery} from "../utils/apiUtils.ts";
 
 function emptyElement() {
     return {
@@ -41,4 +41,35 @@ async function getElementByID(id: string) {
     return await getQuery<Element>("element/id/" + id);
 }
 
-export {emptyElement, getPassword, getTypes, getElementByID};
+async function createElement() {
+    return await postQuery<BasicResponse, ElementCreateRequest>("element", {
+        name: "",
+        url: "",
+        description: "",
+        typeID: "",
+        username: localStorage.getItem("username")
+    })
+}
+
+async function updateElement(element: ElementUpdateRequest, id: string) {
+    return await putQuery<BasicResponse, ElementUpdateRequest>("element/" + id, element)
+}
+
+async function savePassword(password: PasswordCreateRequest) {
+    return await postQuery<BasicResponse, PasswordCreateRequest>("password", password)
+}
+
+async function updatePassword(password: PasswordUpdateRequest, id: string) {
+    return await putQuery<BasicResponse, PasswordUpdateRequest>("password/id/" + id, password)
+}
+
+export {
+    emptyElement,
+    getPassword,
+    getTypes,
+    createElement,
+    savePassword,
+    updatePassword,
+    updateElement,
+    getElementByID
+};

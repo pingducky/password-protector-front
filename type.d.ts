@@ -12,8 +12,8 @@ interface BasicResponse {
 
 //Element
 interface ElementUpdateRequest {
-    name: string
-    url: string
+    name?: string
+    url?: string
     description?: string
     typeID?: string
 }
@@ -169,10 +169,13 @@ interface ErrorProps {
 interface EditLineProps {
     identifier: string
     password: string
+    setIdentifier: (value: string) => void
     setPassword: (value: string) => void
+    savePassword: () => void
 }
 
 interface BasicLineProps {
     identifier: string
     editable: boolean
+    setEditable: () => void
 }

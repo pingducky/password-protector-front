@@ -2,7 +2,6 @@ import {ActionIcon, Flex} from "@mantine/core";
 import styles from "../../../pages/detail/DetailPanel.module.scss";
 import TextField from "../input/TextInput.tsx";
 import TextInput from "../input/TextInput.tsx";
-import CrossIcon from "../svg/CrossIcon.tsx";
 import CheckIcon from "../svg/CheckIcon.tsx";
 
 function EditLine(props: EditLineProps) {
@@ -13,7 +12,7 @@ function EditLine(props: EditLineProps) {
                     <TextField label={"Identifiant"} placeholder={"Entrez l'identifiant"}
                                value={props.identifier}
                                isRequired={true}
-                               onChange={null}>
+                               onChange={props.setIdentifier}>
                     </TextField>
                 </div>
 
@@ -27,12 +26,8 @@ function EditLine(props: EditLineProps) {
             </Flex>
 
             <Flex gap={"8px"}>
-                <ActionIcon color={"green"}>
+                <ActionIcon color={"green"} onClick={props.savePassword}>
                     <CheckIcon/>
-                </ActionIcon>
-
-                <ActionIcon color={"red"}>
-                    <CrossIcon/>
                 </ActionIcon>
             </Flex>
         </Flex>

@@ -15,19 +15,35 @@ import {Color} from "@tiptap/extension-color";
 import {TextStyle} from "@tiptap/extension-text-style";
 import {Underline} from "@tiptap/extension-underline";
 import {Subscript} from "@tiptap/extension-subscript";
-import {emptyElement, getElementByID, getPassword, getTypes} from "../../api/DetailPanel.ts";
+import {
+    createElement,
+    emptyElement,
+    getElementByID,
+    getPassword,
+    getTypes,
+    savePassword,
+    updateElement,
+    updatePassword
+} from "../../api/DetailPanel.ts";
 import EditLine from "../../components/shared/detail/EditLine.tsx";
 import BasicLine from "../../components/shared/detail/BasicLine.tsx";
 
 function Detail() {
     const {id} = useParams();
-    const [types, setTypes] = useState<BasicType[]>([]);
+    const [types, setTypes] = useState<string[]>(["Aucun"]);
+    const [basicType, setBasicType] = useState<BasicType[]>([]);
     const [element, setElement] = useState(emptyElement);
     const [editable, setEditable] = useState(true);
+
+    const [elementID, setElementID] = useState("")
 
     const [editPasswordIndex, setEditPasswordIndex] = useState<number | null>(null);
     const [passwordString, setPassword] = useState("");
 
+    const [nameState, setName] = useState("");
+    const [urlState, setUrl] = useState("");
+    const [descriptionState, setDescription] = useState("");
+    const [typeState, setType] = useState("Aucun");
 
     const editor = useEditor({
         extensions: [
@@ -38,7 +54,7 @@ function Detail() {
             Color,
             TextStyle
         ],
-        content: element.passwords.length > 0 ? element.passwords[editPasswordIndex].comment : "",
+        content: element.passwords.length > 0 && editPasswordIndex !== null ? element.passwords[editPasswordIndex].comment : "",
         onUpdate: ({editor}) => {
             element.passwords[editPasswordIndex].comment = editor.getHTML();
         }
@@ -52,15 +68,20 @@ function Detail() {
             getElementByID(id).then((response) => {
                 if (response.ok && response.data.id !== "") {
                     setElement(response.data);
+                    setElementID(response.data.id)
 
-                    const index = response.data.passwords.length > 0 ? response.data.passwords.length - 1 : 0;
-                    setEditPasswordIndex(index);
-
-                    getPassword(response.data.passwords[index].id).then((response) => {
-                        setPassword(response.data.password);
-                    });
+                    setName(response.data.name);
+                    setUrl(response.data.url);
+                    setDescription(response.data.description);
+                    setType(response.data.type ? response.data.type.name : "Aucun");
                 }
             });
+        } else {
+            createElement().then((response) => {
+                if (response.ok) {
+                    setElementID(response.data.message)
+                }
+            })
         }
     }, [id]);
 
@@ -68,16 +89,82 @@ function Detail() {
     useEffect(() => {
         getTypes().then((response) => {
             if (response.ok && response.data.length > 0) {
-                setTypes(response.data);
+                console.log(response.data)
+
+                setBasicType(response.data)
+                setTypes(response.data.map((type) => type.name));
             }
         });
     }, []);
 
-    function setType(value: string) {
-        const type = types.find((type) => type.name === value);
+
+    function setBasicTypes(value: string) {
+        const type = basicType.find((type) => type.name === value);
 
         if (type) {
             element.type = type;
+        }
+    }
+
+    function addPassword() {
+        const password: BasicPassword = {
+            id: "",
+            identifier: "",
+            comment: ""
+        }
+
+        element.passwords.push(password);
+        setEditPasswordIndex(element.passwords.length - 1);
+    }
+
+    function editLine(index: number) {
+        console.log("click")
+        setEditPasswordIndex(index);
+
+        getPassword(element.passwords[index].id).then((response) => {
+            setPassword(response.data.password);
+        })
+    }
+
+    function saveData() {
+        if (editable) {
+            const elementRequest: ElementUpdateRequest = {
+                name: element.name,
+                url: element.url,
+                description: element.description,
+                typeID: element.type ? element.type.id : "",
+            }
+
+            updateElement(elementRequest, elementID).then(() => {
+                setEditable(!editable);
+            });
+        } else {
+            setEditable(!editable);
+        }
+    }
+
+    function finishPassword(password: BasicPassword) {
+        if (password.id !== "") {
+            const passwordRequest: PasswordUpdateRequest = {
+                identifier: password.identifier,
+                password: passwordString,
+                comment: password.comment
+            }
+
+            updatePassword(passwordRequest, password.id).then(() => {
+                setEditPasswordIndex(null)
+            })
+        } else {
+            const passwordRequest: PasswordCreateRequest = {
+                elementID: elementID,
+                identifier: password.identifier,
+                password: passwordString,
+                comment: password.comment
+            }
+
+            savePassword(passwordRequest).then(() => {
+                setEditPasswordIndex(null)
+            })
         }
     }
 
@@ -88,7 +175,7 @@ function Detail() {
 
             <Flex w={"100%"} p={"0 70px 70px 70px"} direction={"column"} gap={"56px"}>
                 <Flex w={"100%"} justify={"flex-end"}>
-                    <Button color={editable ? "green" : "violet"} onClick={() => setEditable(!editable)}>
+                    <Button color={editable ? "green" : "violet"} onClick={() => saveData()}>
                         {editable ? "Enregistrer" : "Editer"}
                     </Button>
                 </Flex>
@@ -99,7 +186,7 @@ function Detail() {
                         <Flex direction={"column"} gap={"16px"}>
                             <Flex className={styles.textInputBox} gap={"8px"}>
                                 <div className={styles.textInputSize}>
-                                    <TextField label={"Nom"} placeholder={"Entrez le nom"} value={element.name}
+                                    <TextField label={"Nom"} placeholder={"Entrez le nom"} value={nameState}
                                                isRequired={true}
                                                disabled={!editable}
                                                onChange={value => element.name = value}>
@@ -107,15 +194,15 @@ function Detail() {
                                 </div>
 
                                 <div className={styles.textInputSize}>
-                                    <SelectInput label={"Type"} value={types.length > 0 ? types[0].name : "Aucun"}
-                                                 options={types.length > 0 ? types.map((type) => type.name) : ["Aucun"]}
+                                    <SelectInput label={"Type"} value={typeState}
+                                                 options={types}
                                                  disabled={!editable}
-                                                 onChange={setType}/>
+                                                 onChange={setBasicTypes}/>
                                 </div>
                             </Flex>
 
 
-                            <TextField label={"URL"} placeholder={"Entrez l'URL du site"} value={element.url}
+                            <TextField label={"URL"} placeholder={"Entrez l'URL du site"} value={urlState}
                                        isRequired={true}
                                        disabled={!editable}
                                        onChange={value => element.url = value}>
@@ -126,14 +213,14 @@ function Detail() {
                     <Flex w={"60%"} className={styles.card}>
                         <Text size={"20px"}>Description</Text>
 
-                        <TextAreaInput label={"Description"} disabled={!editable}
+                        <TextAreaInput label={"Description"} value={descriptionState} disabled={!editable}
                                        onChange={value => element.description = value}/>
                     </Flex>
                 </Flex>
 
                 <Flex w={"100%"} gap={"40px"}>
                     <Flex w={"55%"} className={styles.card}>
-                        <Flex direction={"column"}>
+                        <Flex direction={"column"} gap={"20px"}>
                             <Text size={"20px"}>Comptes</Text>
 
                             {
@@ -141,13 +228,18 @@ function Detail() {
                                     element.passwords.map((password, index) => (
                                         editable ? (
                                             index === editPasswordIndex ? (
-                                                <EditLine identifier={password.identifier} password={passwordString}
-                                                          setPassword={setPassword}/>
+                                                <EditLine identifier={password.identifier}
+                                                          password={passwordString}
+                                                          setPassword={value => setPassword(value)}
+                                                          savePassword={() => finishPassword(password)}
+                                                          setIdentifier={value => password.identifier = value}/>
                                             ) : (
-                                                <BasicLine identifier={password.identifier} editable={false}/>
+                                                <BasicLine identifier={password.identifier} editable={editPasswordIndex === null}
+                                                           setEditable={() => editLine(index)}/>
                                             )
                                         ) : (
-                                            <BasicLine identifier={password.identifier} editable={true}/>
+                                            <BasicLine identifier={password.identifier} editable={editPasswordIndex === null}
+                                                       setEditable={() => editLine(index)}/>
                                         )
                                     ))
                                 ) : (
@@ -161,7 +253,8 @@ function Detail() {
                         {
                             editable ? (
                                 <Flex w={"100%"} justify={"center"}>
-                                    <ActionIcon size={"lg"} color={"violet"}>
+                                    <ActionIcon size={"lg"} color={"violet"} onClick={() => addPassword()}
+                                                disabled={editPasswordIndex !== null}>
                                         <AddIcon/>
                                     </ActionIcon>
                                 </Flex>
