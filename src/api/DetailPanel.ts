@@ -1,4 +1,4 @@
-import {fetchWithoutAuth, getQuery, postQuery, putQuery} from "../utils/apiUtils.ts";
+import {getQuery, postQuery, putQuery} from "../utils/apiUtils.ts";
 
 function emptyElement() {
     return {
@@ -68,7 +68,6 @@ async function updatePassword(password: PasswordUpdateRequest, id: string) {
 }
 
 export {
-    sendSharePasswordEmail,
     emptyElement,
     getPassword,
     getTypes,

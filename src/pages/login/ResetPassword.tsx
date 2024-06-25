@@ -2,7 +2,7 @@ import {Center, Flex, Paper, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../../components/shared/CustomizeButton";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {resetPasswordSendMail} from "../api/User.ts";
+import {resetPasswordSendMail} from "../../api/User.ts";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function ResetPassword() {
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Flex direction='column' align={Center}>
+            <Flex direction='column' align={"center"}>
                 <Title order={2} lineClamp={2} mb={25}>Récupérer votre mot de passe</Title>
                 <TextInput
                     label="Email"
