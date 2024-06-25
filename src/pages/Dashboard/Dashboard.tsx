@@ -4,7 +4,7 @@ import DeleteIcon from '../../components/shared/Icons';
 import CustomizeButton from '../../components/shared/CustomizeButton';
 import Navbar from '../../components/shared/Navbar';
 import styles from './Dashboard.module.scss';
-import { deleteElementById, getElementsByUsername } from '../../api/Dashboard';
+import { deleteElementById, getElementInAdminMode, getElementsByUsername } from '../../api/Dashboard';
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
@@ -33,6 +33,14 @@ export default function Dashboard() {
         } else {
             navigate('/login');
         }
+    }, []);
+
+    useEffect(() => {
+        const returned = getElementInAdminMode();
+        console.log('request send :');
+        getElementInAdminMode().then((response) => {
+            console.log('response :', response);
+        });
     }, []);
 
     return (

@@ -1,5 +1,5 @@
-import {AppShell, Group, NavLink, Title} from '@mantine/core';
-import {useLocation, useNavigate} from "react-router-dom";
+import { AppShell, Group, NavLink, Title } from '@mantine/core';
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomizeButton from "./CustomizeButton.tsx";
 
 
@@ -15,9 +15,15 @@ export default function Navbar() {
         navigate("/register");
     }
 
+    const handleDisconnectClick = () => {
+        localStorage.removeItem('username')
+        navigate("/login");
+    }
+
+    console.log(!!localStorage.getItem('username'));
     return (
         <AppShell
-            header={{height: 60}}
+            header={{ height: 60 }}
             padding="md"
             mt={50}
         >
@@ -29,14 +35,12 @@ export default function Navbar() {
                         </Title>
                     </Group>
                     <Group grow pb="xl" px="md">
-                        <NavLink href="/dashboard" label={"DashBoard"}/>
+                        <NavLink href="/dashboard" label={"DashBoard"} />
                     </Group>
                     <Group grow pb="xl" px="md">
-                        {location.pathname !== "/login" &&
-                            <CustomizeButton type={"button"} onClick={handleLoginClick} variant={"transparent"}
-                                             text={"Connexion"}/>}
+                        {location.pathname !== "/login" && <CustomizeButton type={"button"} onClick={handleDisconnectClick} variant={"transparent"} text={"Deconnexion"} />}
                         {location.pathname !== "/register" &&
-                            <CustomizeButton type={"button"} onClick={handleRegisterClick} text={"Inscription"}/>}
+                            <CustomizeButton type={"button"} onClick={handleRegisterClick} text={"Inscription"} />}
                     </Group>
                 </Group>
             </AppShell.Header>

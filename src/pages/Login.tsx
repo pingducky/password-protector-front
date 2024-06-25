@@ -45,6 +45,7 @@ export default function Login() {
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
+            {localStorage.getItem('username')}
             <Navbar />
             <Flex direction={'column'} justify="center" align="center">
                 <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
