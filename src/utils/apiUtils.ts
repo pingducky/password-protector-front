@@ -44,7 +44,7 @@ async function getResult<T>(res: Response) {
 }
 
 async function fetchAPI<R, B>(url: string, method: Method, body?: B) {
-    const response = await window.fetch(`${baseURL}${url}`, {
+    const response = await fetch(`${baseURL}${url}`, {
         method: method,
         body: body ? JSON.stringify(body) : undefined,
         credentials: "include",

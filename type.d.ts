@@ -9,10 +9,11 @@ interface BasicResponse {
 }
 
 /* Request */
+
 //Element
 interface ElementUpdateRequest {
-    name: string
-    url: string
+    name?: string
+    url?: string
     description?: string
     typeID?: string
 }
@@ -74,11 +75,11 @@ interface SendMailRequest {
 
 
 
-
-
 /* Response */
 interface Response {
-    message: string
+    data: {
+        message: string
+    }
 }
 
 interface Date {
@@ -144,4 +145,47 @@ interface BasicType {
 
 interface Type extends BasicType, Date {
     user: BasicUser
+}
+
+
+//Props
+interface BackHeaderProps {
+    title: string,
+    backURL: string
+}
+
+interface InputProps {
+    label: string
+    isRequired?: boolean | false
+    disabled?: boolean | false
+    value?: string
+    error?: ErrorProps
+    onChange: (value: string) => void
+}
+
+interface TextInputProps extends InputProps {
+    placeholder: string
+}
+
+interface SelectInputProps extends InputProps {
+    options: Array<string>
+}
+
+interface ErrorProps {
+    errorMessage: string
+    errorFunction: (value: string) => boolean
+}
+
+interface EditLineProps {
+    identifier: string
+    password: string
+    setIdentifier: (value: string) => void
+    setPassword: (value: string) => void
+    savePassword: () => void
+}
+
+interface BasicLineProps {
+    identifier: string
+    editable: boolean
+    setEditable: () => void
 }

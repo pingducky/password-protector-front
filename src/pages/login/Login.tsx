@@ -1,18 +1,17 @@
-import { Flex, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
-import CustomizeButton from "../components/shared/CustomizeButton";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../components/shared/Navbar";
-import { connectUser } from "../api/User.ts";
+import {Flex, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
+import CustomizeButton from "../../components/shared/CustomizeButton";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import Navbar from "../../components/shared/Navbar";
+import {connectUser} from "../../api/User.ts";
 
 export default function Login() {
-
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [errorUsername, seterrorUsername] = useState<string | boolean>(false);
+    const [errorUsername, setErrorUsername] = useState<string | boolean>(false);
     const [errorPassword, setErrorPassword] = useState<string | boolean>(false);
 
     // const passwordMinLenght = 8;
@@ -22,9 +21,9 @@ export default function Login() {
             setErrorPassword('Le format est invalide.');
         }*/
         if (!username) {
-            seterrorUsername('Identifiant requis.');
+            setErrorUsername('Identifiant requis.');
         } else if (!password) {
-            seterrorUsername(false);
+            setErrorUsername(false);
             setErrorPassword('Mot de passe requis.');
         } else {
             setErrorPassword(false);
@@ -45,7 +44,7 @@ export default function Login() {
 
     return (
         <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Navbar />
+            <Navbar/>
             <Flex direction={'column'} justify="center" align="center">
                 <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
                 <TextInput

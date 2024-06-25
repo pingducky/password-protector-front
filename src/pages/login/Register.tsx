@@ -1,10 +1,10 @@
 import {Formik} from "formik";
 import {Box, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
-import CustomizeButton from "../components/shared/CustomizeButton.tsx";
 import {useNavigate} from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
-import Navbar from "../components/shared/Navbar.tsx";
-import {registerUser} from "../api/User.ts";
+import Navbar from "../../components/shared/Navbar.tsx";
+import CustomizeButton from "../../components/shared/CustomizeButton.tsx";
+import {registerUser} from "../../api/User.ts";
 
 export default function Register() {
 
@@ -25,7 +25,7 @@ export default function Register() {
         // Regex pour le mot de passe 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et 8 caractères minimum
         const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         // Regex pour l'email
-        const emailRegex  = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
         // Vérification de l'email
         if (!values.email) errors.email = 'Adresse email requise';
@@ -73,11 +73,11 @@ export default function Register() {
 
                         // Redirection vers la page de connexion si l'inscription est réussie
                         registerUser(values.firstname, values.lastname, values.username, values.email, values.password).then((response) => {
-                            if(response.data.message == "Email already exists"){
+                            if (response.data.message == "Email already exists") {
                                 setErrors({email: "L'email est déjà utilisé"});
-                            }else if(response.data.message == "Username already exists"){
+                            } else if (response.data.message == "Username already exists") {
                                 setErrors({username: "L'identifiant est déjà utilisé"});
-                            }else if(response.data.message == "Saved"){
+                            } else if (response.data.message == "Saved") {
                                 navigate('/login');
                             }
                         });
