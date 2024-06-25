@@ -15,6 +15,10 @@ export default function Navbar() {
         navigate("/register");
     }
 
+    const handleDisconnectClick = () => {
+        console.log("Déconnexion");
+    }
+
     return (
         <AppShell
             header={{height: 60}}
@@ -37,6 +41,9 @@ export default function Navbar() {
                                              text={"Connexion"}/>}
                         {location.pathname !== "/register" &&
                             <CustomizeButton type={"button"} onClick={handleRegisterClick} text={"Inscription"}/>}
+
+                        {location.pathname !== "/register" || location.pathname!== "/login" &&
+                            <CustomizeButton type={"button"} onClick={handleDisconnectClick} text={"Déconnexion"}/>}
                     </Group>
                 </Group>
             </AppShell.Header>

@@ -2,6 +2,7 @@ import {Center, Flex, Paper, TextInput, Title} from "@mantine/core";
 import CustomizeButton from "../../components/shared/CustomizeButton";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {resetPasswordSendMail} from "../api/User.ts";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
@@ -10,10 +11,18 @@ export default function ResetPassword() {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+    const [message, setMessage] = useState("");
 
     const handleClickResetEmail = () => {
         if (email.length <= 3 || !emailRegex.test(email)) {
             setErrorEmail('Le format de l\'email est invalide');
+        }else{
+            resetPasswordSendMail(email).then((response) => {
+            if(response?.status === 200){
+                setMessage("Un email de récupération de mot de passe vous a été envoyé");
+            }else{
+                setMessage("Un email de récupération de mot de passe vous a été envoyé");
+            }});
         }
     }
 
@@ -35,6 +44,7 @@ export default function ResetPassword() {
                     text="Retour à l'espace de connexion"
                     type="button"
                 />
+                <p>{message}</p>
             </Flex>
         </Paper>
     )

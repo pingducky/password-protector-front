@@ -8,12 +8,6 @@ import {useEffect, useState} from "react";
 import DeleteIcon from "../../components/shared/svg/DeleteIcon.tsx";
 import {useNavigate} from "react-router-dom";
 
-// interface Element {
-//     id: number;
-//     name: string;
-//     proprietaire: string;
-// }
-
 export default function Dashboard() {
     const [userElements, setUserElements] = useState<BasicElement[]>([]);
     const navigate = useNavigate();
@@ -28,6 +22,10 @@ export default function Dashboard() {
             });
         }
     };
+
+    const clickElement = (elementId: string) => {
+        navigate(`/detail/${elementId}`);
+    }
 
     useEffect(() => {
         if (username) {
@@ -65,7 +63,7 @@ export default function Dashboard() {
                                     <Table.Td>{element.url}</Table.Td>
                                     <Table.Td>{element.creationDate}</Table.Td>
                                     <Table.Td>
-                                        <ActionIcon aria-label="Settings" p={3} color='violet'>
+                                        <ActionIcon aria-label="Settings" p={3} color='violet' onClick={() => clickElement(element.id)}>
                                             <IconExternalLink />
                                         </ActionIcon>
                                     </Table.Td>

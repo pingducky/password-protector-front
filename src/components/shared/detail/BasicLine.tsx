@@ -37,20 +37,20 @@ function BasicLine(props: BasicLineProps) {
 
     return (
         <Flex gap={"16px"} w={"100%"}>
-            <Flex gap={"8px"} className={styles.passwordList}>
-                <Flex direction={"column"} className={styles.textInputSize}>
+            <Flex gap={"8px"} className={styles.passwordList} w={"100%"}>
+                <Flex direction={"column"} className={styles.textInputSize} gap={"2px"}>
                     <Text>Identifiant</Text>
                     <Text>{props.identifier}</Text>
                 </Flex>
 
-                <Flex direction={"column"} className={styles.textInputSize}>
+                <Flex direction={"column"} className={styles.textInputSize} gap={"2px"}>
                     <Text>Mot de passe</Text>
                     <Text>**********</Text>
                 </Flex>
             </Flex>
 
             <Flex gap={"8px"}>
-                <ActionIcon color={"violet"} disabled={!props.editable}>
+                <ActionIcon color={"violet"} disabled={!props.editable} onClick={props.setEditable}>
                     <Eye/>
                 </ActionIcon>
 
