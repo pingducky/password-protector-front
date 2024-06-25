@@ -45,6 +45,8 @@ function Detail() {
     const [descriptionState, setDescription] = useState("");
     const [typeState, setType] = useState("Aucun");
 
+    const [editorContent, setEditorContent] = useState("")
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -54,8 +56,9 @@ function Detail() {
             Color,
             TextStyle
         ],
-        content: element.passwords.length > 0 && editPasswordIndex !== null ? element.passwords[editPasswordIndex].comment : "",
+        content: editorContent,
         onUpdate: ({editor}) => {
+            setEditorContent(editor.getHTML());
             element.passwords[editPasswordIndex].comment = editor.getHTML();
         }
     });
@@ -74,6 +77,7 @@ function Detail() {
                     setUrl(response.data.url);
                     setDescription(response.data.description);
                     setType(response.data.type ? response.data.type.name : "Aucun");
+                    setEditorContent(response.data.passwords.length > 0 && editPasswordIndex !== null ? element.passwords[editPasswordIndex].comment : "")
                 }
             });
         } else {
@@ -118,8 +122,8 @@ function Detail() {
     }
 
     function editLine(index: number) {
-        console.log("click")
         setEditPasswordIndex(index);
+        setEditorContent(element.passwords[index].comment)
 
         getPassword(element.passwords[index].id).then((response) => {
             setPassword(response.data.password);
@@ -144,6 +148,8 @@ function Detail() {
     }
 
     function finishPassword(password: BasicPassword) {
+        console.log(password)
+
         if (password.id !== "") {
             const passwordRequest: PasswordUpdateRequest = {
                 identifier: password.identifier,
@@ -152,9 +158,11 @@ function Detail() {
             }
 
             updatePassword(passwordRequest, password.id).then(() => {
+                console.log("Je suis ici ?")
                 setEditPasswordIndex(null)
             })
         } else {
+            console.log("Here ?")
             const passwordRequest: PasswordCreateRequest = {
                 elementID: elementID,
                 identifier: password.identifier,
@@ -163,7 +171,9 @@ function Detail() {
             }
 
             savePassword(passwordRequest).then(() => {
+                console.log("Here ?")
                 setEditPasswordIndex(null)
+                setPassword("")
             })
         }
     }

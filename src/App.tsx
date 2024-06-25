@@ -1,7 +1,6 @@
 import './App.css'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/error/ErrorPage';
-import Dashboard from './pages/Dashboard/Dashboard.tsx'
 import Login from "./pages/login/Login.tsx";
 import Register from "./pages/login/Register.tsx";
 import ResetPassword from "./pages/login/ResetPassword.tsx";
@@ -10,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./store/store.ts";
 import SharedPassword from "./pages/detail/SharedPassword.tsx";
 import ChangePassword from "./pages/ChangePassword.tsx";
+import Dashboard from "./pages/dashboard/Dashboard.tsx";
 
 const router = createBrowserRouter(
     [
@@ -39,6 +39,10 @@ const router = createBrowserRouter(
                 },
                 {
                     path: '/detail/:id',
+                    element: <Detail />
+                },
+                {
+                    path: '/detail',
                     element: <Detail />
                 },
                 {

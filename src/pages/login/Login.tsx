@@ -1,9 +1,8 @@
-import {Flex, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
-import CustomizeButton from "../../components/shared/CustomizeButton";
+import {Flex, Image, Input, PasswordInput, Text} from "@mantine/core";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import Navbar from "../../components/shared/Navbar";
 import {connectUser} from "../../api/User.ts";
+import styles from './Login.module.scss';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -43,51 +42,82 @@ export default function Login() {
     }
 
     return (
-        <Paper shadow="xl" radius="xl" withBorder p="xl">
-            <Navbar/>
-            <Flex direction={'column'} justify="center" align="center">
-                <Title order={2} lineClamp={2} mb={25}>Espace de connexion</Title>
-                <TextInput
-                    label="Identifiant"
-                    placeholder="Identifiant"
-                    onChange={(event) => setUsername(event.currentTarget.value.toLocaleLowerCase())}
-                    w={'300px'}
-                    error={errorUsername}
-                />
+        <Flex w={"100%"} mih={"100vh"}>
+            <Flex className={styles.loginImageBox}>
+                <Flex w={"100%"} justify={"center"}>
+                    <Image src="/assets/logo.png" className={styles.image}/>
+                </Flex>
 
-                <PasswordInput
-                    label="Mot de passe"
-                    placeholder="Mot de passe"
-                    w={'300px'}
-                    error={errorPassword}
-                    onChange={(event) => setPassword(event.currentTarget.value)}
-                    mb={15}
-                />
+                <Flex className={styles.loginText}>
+                    <Text className={styles.title}>Bienvenue sur Password Protector</Text>
+                    <Text className={styles.subtitle}>Protégez vos mots de passe en toute sécurité</Text>
+                </Flex>
             </Flex>
 
-            <Flex direction={"column"} align={"center"}>
-                <CustomizeButton
-                    variant="filled"
-                    onClick={handleConnect}
-                    text={"Se connecter"}
-                    type="button"
-                    width="250"
-                />
+            <Flex className={styles.loginTextInput}>
+                <Flex gap={"8px"}>
+                    <Text className={styles.password}>Password</Text>
+                    <Text className={styles.protector}>Protector</Text>
+                </Flex>
 
-                <CustomizeButton
-                    variant="transparent"
-                    onClick={() => navigate('/register')}
-                    text="Créer un compte"
-                    type="button"
-                />
+                <div className={styles.textInputBox}>
+                    <Flex direction={"column"} gap={"30px"}>
+                        <Flex direction={"column"} p={"10px"} gap={"10px"}>
+                            <Text className={styles.textReturn}>Bon retour</Text>
+                            <Text className={styles.identifier}>Merci d’entrer vos identifiants</Text>
+                        </Flex>
 
-                <CustomizeButton
-                    variant="transparent"
-                    onClick={() => navigate('/resetPassword')}
-                    text="Mot de passe oublié ?"
-                    type="button"
-                />
+                        <Flex direction={"column"} gap={"20px"}>
+                            <Flex direction={"column"} gap={"6px"}>
+                                <Flex gap={"4px"}>
+                                    <Text className={styles.label}>Identifiant</Text>
+                                </Flex>
+
+                                <Input placeholder={"Entrez votre identifiant"}
+                                       onChange={(event) => setUsername(event.currentTarget.value)}
+                                       error={errorUsername}
+                                       w={"350px"}
+                                />
+                            </Flex>
+
+                            <Flex direction={"column"} gap={"6px"}>
+                                <Flex gap={"4px"}>
+                                    <Text className={styles.label}>Mot de passe</Text>
+                                </Flex>
+
+                                <PasswordInput placeholder={"Entrez votre mot de passe"}
+                                               onChange={(event) => setPassword(event.currentTarget.value)}
+                                               error={errorPassword}
+                                               w={"350px"}
+                                />
+                            </Flex>
+
+                            <Text className={styles.forgot} onClick={() => navigate('/resetPassword')}>J'ai oublié mon
+                                mot de
+                                passe ?</Text>
+                        </Flex>
+
+                        <Flex direction={"column"} gap={"10px"}>
+                            <Flex className={styles.button} onClick={handleConnect}>
+                                <Text>Connexion</Text>
+                            </Flex>
+
+                            <Text className={styles.forgot} onClick={() => navigate('/register')}>Je n'ai pas de compte
+                                ?</Text>
+                        </Flex>
+
+                    </Flex>
+
+                    <div className={styles.copyright}>
+                        <Flex gap={"3px"}>
+                            <Text className={styles.copyrightText}>Copyright 2024</Text>
+                            <Text className={styles.copyrightTextCompany}>AHV S.A.S</Text>
+                        </Flex>
+
+                        <Text className={styles.copyrightText}>Tout droit réservé</Text>
+                    </div>
+                </div>
             </Flex>
-        </Paper>
+        </Flex>
     )
 }

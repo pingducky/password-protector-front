@@ -1,5 +1,6 @@
 import {Flex, Input, Text} from "@mantine/core";
 import React, {useState} from "react";
+import styles from "./TextAreaInput.module.scss";
 
 const TextInput = (props: TextInputProps) => {
     const [value, setValue] = useState(props.value);
@@ -21,10 +22,10 @@ const TextInput = (props: TextInputProps) => {
     }
 
     return (
-        <Flex direction={"column"} gap={"4px"}>
+        <Flex direction={"column"} gap={"10px"}>
             <Flex gap={"4px"} h={"25px"}>
-                <Text>{props.label}</Text>
-                <Text c={"red"} hidden={!props.isRequired}>*</Text>
+                <Text className={styles.label}>{props.label}</Text>
+                <Text className={styles.label} c={"red"} hidden={!props.isRequired}>*</Text>
             </Flex>
 
             <Input placeholder={props.placeholder} value={value} onChange={handleKeyDown} disabled={props.disabled}/>

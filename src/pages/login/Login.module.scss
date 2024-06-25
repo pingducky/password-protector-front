@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+.loginImageBox {
+  display: flex;
+  width: 55%;
+  height: 100vh;
+  padding: 70px 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(152deg, rgba(161, 168, 247, 0.90) 2.03%, rgba(142, 148, 245, 0.50) 95.47%);
+
+  .image {
+    width: 450px;
+    height: 450px;
+  }
+
+  .loginText {
+    display: flex;
+    width: 100%;
+    padding: 0 70px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+
+    p {
+      color: #1E2029;
+      font-family: Poppins, sans-serif;
+      font-style: normal;
+      line-height: normal;
+    }
+
+    .title {
+      font-weight: 500;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      font-weight: 300;
+      font-size: 20px;
+    }
+  }
+}
+
+.loginTextInput {
+  display: flex;
+  padding: 80px 0 40px 0;
+  width: 45%;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  .password {
+    color: #8E94F5;
+    font-family: Poppins, sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .protector {
+    color: #1E2029;
+    font-family: Poppins, 'sans-serif';
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .textInputBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 0 0;
+
+    .textReturn {
+      color: #1E2029;
+      font-family: Poppins, sans-serif;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-align: center;
+    }
+
+    .identifier {
+      color: #1E2029;
+      font-family: Poppins, sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-align: center;
+    }
+
+    .forgot {
+      color: #1E2029;
+      font-family: Poppins, sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-align: center;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #8E94F5;
+      }
+    }
+
+    .account {
+      color: #1E2029;
+      font-family: Poppins, sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-align: end;
+      cursor: pointer;
+    }
+
+    .button {
+      display: flex;
+      padding: 8px 24px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 6px;
+      background: #8E94F5;
+      transition: all 0.3s;
+
+      p {
+        color: #ffffff;
+        font-family: Poppins, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
+
+      &:hover {
+        background: #6F75F5;
+      }
+    }
+  }
+
+  .copyright {
+    display: flex;
+    width: 520px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    .copyrightText {
+      color: rgba(0, 0, 0, 0.70);
+      font-family: Karla, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .copyrightTextCompany {
+      color: rgba(0, 0, 0, 0.70);
+      font-family: Karla, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+  }
+}
