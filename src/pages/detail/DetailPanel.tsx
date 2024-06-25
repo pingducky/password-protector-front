@@ -144,10 +144,10 @@ function Detail() {
                                                 <EditLine identifier={password.identifier} password={passwordString}
                                                           setPassword={setPassword}/>
                                             ) : (
-                                                <BasicLine identifier={password.identifier} editable={false}/>
+                                                <BasicLine identifier={password.identifier} editable={false} id={password.id}/>
                                             )
                                         ) : (
-                                            <BasicLine identifier={password.identifier} editable={true}/>
+                                            <BasicLine identifier={password.identifier} editable={true} id={password.id}/>
                                         )
                                     ))
                                 ) : (

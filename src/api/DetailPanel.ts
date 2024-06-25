@@ -1,4 +1,4 @@
-import {getQuery} from "../utils/apiUtils.ts";
+import {fetchWithoutAuth, getQuery, postQuery} from "../utils/apiUtils.ts";
 
 function emptyElement() {
     return {
@@ -40,5 +40,10 @@ async function getTypes() {
 async function getElementByID(id: string) {
     return await getQuery<Element>("element/id/" + id);
 }
+
+export async function sendSharePasswordEmail(email: string, username: string, passwordId: string) {
+    return await postQuery<BasicResponse, SharePasswordRequest>("password/share", {email, username, passwordId});
+}
+
 
 export {emptyElement, getPassword, getTypes, getElementByID};
